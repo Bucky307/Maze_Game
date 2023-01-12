@@ -1,7 +1,7 @@
 /**
  * @author Kim Buckner
  * Date: Jan 13, 2019
- * Updated: Jan 25, 2022
+ * Updated: Jan 12, 2023
  *
  * This is the actual "game". Will have to make some major changes.
  * This is just a "hollow" shell.
@@ -47,6 +47,10 @@ public class GameWindow extends JFrame implements ActionListener
    * which you really need to read up on, and maybe you can see why I chose
    * this one.
    *
+   * If you don't want to use this layout, feel free to change it. Or get rid of
+   * it altogether. You might also want to look at things like "layered"
+   * panes/frames and using an InnerFrame. It is all up to you. 
+   *
    * @param s string which is the name of the window. 
    */
 
@@ -61,7 +65,7 @@ public class GameWindow extends JFrame implements ActionListener
    * For the buttons
    * @param e is the ActionEvent
    * 
-   * BTW can ask the event for the name of the object generating event.
+   * BTW you can ask the event for the name of the object generating event.
    * The odd syntax for non-java people is that "exit" for instance is
    * converted to a String object, then that object's equals() method is
    * called.
@@ -96,7 +100,7 @@ public class GameWindow extends JFrame implements ActionListener
     basic.gridheight=1;
 
     // This is really a constant in the GrdiBagConstraints. This way we 
-    // don't need to know what type/value it is
+    // don't need to know what type/value "BOTH" is
     
     basic.fill=GridBagConstraints.BOTH;
 

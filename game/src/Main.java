@@ -1,7 +1,7 @@
 /**
  * @author Kim Buckner
  * Date: Jan 13, 2019
- * Updated: Jan 25, 2022
+ * Updated: Jan 12, 2023
  *
  *
  * A starting point for the COSC 3011 programming assignment
@@ -26,20 +26,19 @@ public class Main
   public static void main(String[] args)
   {
     // This is the play area
-    // HEY FIX THE NAME, WHAT IS ****YOUR**** GROUP
+    // HEY FIX THE NAME, WHAT IS ****YOUR**** GROUP INSTEAD OF 'X'
     GameWindow game = new GameWindow("Group X aMaze");
     
     // have to override the default layout to reposition things!!!!!!!
+    // You HAVE TO use this dimension for the game OR (1000, 1000)
+    // Those are the ONLY options. 
 
     game.setSize(new Dimension(900, 1000));
-    
-    // So the debate here was, do I make the GameWindow object the game
-    // or do I make main() the game, manipulating a window?
-    // Should GameWindow methods know what they store?
-    // Answer is, have the "game" do it.
 
     game.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+    // I chose 'cyan' because it is not white or black or especially annoying.
+    // You can use whatever you like.
     // Use colors that are viewable on ALL DEVICES, Stay away from yellows, do
     // NOT use black or white. 
     game.getContentPane().setBackground(Color.cyan);
@@ -49,12 +48,13 @@ public class Main
     
     game.setVisible(true);
 
-    // You will HAVE to read some documentation and catch exceptions so get used
+    // You will HAVE to READ some documentation and catch exceptions so get used
     // to it. 
 
     try {
       // The 4 that are installed on Linux here
       // May have to test on Windows boxes to see what is there.
+      // And frankly, I do NOT care about what Macs may do. 
       UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
       // This is the "Java" or CrossPlatform version and the default
       //UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
