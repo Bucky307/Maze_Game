@@ -12,7 +12,7 @@ source code.
 ### Team Members: ###
 **Teams need to update this section. And comment out this line**  
 
-lastname, firstname: github-username  
+Townsend, Chester: ctownse9  
 lastname, firstname: github-username  
 lastname, firstname: github-username  
 lastname, firstname: github-username  
