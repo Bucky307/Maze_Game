@@ -13,7 +13,7 @@ source code.
 **Teams need to update this section. And comment out this line**  
 
 Townsend, Chester: ctownse9  
-lastname, firstname: github-username  
+Smith, Ally: AllySmith03  
 lastname, firstname: github-username  
 lastname, firstname: github-username  
 lastname, firstname: github-username  
