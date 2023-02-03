@@ -14,6 +14,6 @@ source code.
 
 Townsend, Chester: ctownse9  
 Smith, Ally: AllySmith03  
-lastname, firstname: github-username  
+Richmond, Jason: RedExecutor66  
 lastname, firstname: github-username  
 lastname, firstname: github-username  
