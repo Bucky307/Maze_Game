@@ -13,4 +13,4 @@
 *.*~
 *.bak
 # Ignore the docs directory
-docs/**
+/docs/**
