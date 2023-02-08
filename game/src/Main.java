@@ -33,7 +33,7 @@ public class Main
     // You HAVE TO use this dimension for the game OR (1000, 1000)
     // Those are the ONLY options. 
 
-    game.setSize(new Dimension(1000, 1000));
+    game.setSize(new Dimension(900, 1000));
 
     game.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -41,11 +41,10 @@ public class Main
     // You can use whatever you like.
     // Use colors that are viewable on ALL DEVICES, Stay away from yellows, do
     // NOT use black or white. 
-    game.getContentPane().setBackground(Color.magenta);
+    game.getContentPane().setBackground(Color.pink);
     game.setUp();
     
-    // May or may not need this
-    
+    // May or may not need this 
     game.setVisible(true);
 
     // You will HAVE to READ some documentation and catch exceptions so get used
@@ -53,7 +52,7 @@ public class Main
 
     try {
       // The 4 that are installed on Linux here
-      // May have to test on Windows boxes to see what is there.
+      // May have to test on Windows boxes to see what is there. 
       // And frankly, I do NOT care about what Macs may do. 
       UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
       // This is the "Java" or CrossPlatform version and the default

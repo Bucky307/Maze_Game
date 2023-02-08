@@ -24,7 +24,6 @@ import java.awt.event.ActionListener;
 public class GameWindow extends JFrame implements ActionListener
 {
 	
-
   /**
    * because it is a serializable object, need this or javac
    * complains <b>a lot</b>, the ID can be any integer.
@@ -73,11 +72,11 @@ public class GameWindow extends JFrame implements ActionListener
    */
 
   public void actionPerformed(ActionEvent e) {
-    if("exit".equals(e.getActionCommand()))
+    if("exit".equals(e.getActionCommand())) 
       System.exit(0);
     if("reset".equals(e.getActionCommand()))
       System.out.println("reset pressed\n");
-    if("new".equals(e.getActionCommand()))
+    if("new".equals(e.getActionCommand())) 
       System.out.println("new pressed\n");
     }
 
@@ -94,13 +93,11 @@ public class GameWindow extends JFrame implements ActionListener
 	    // stuff into the "GridBag".
 	    // YOU CAN USE any type of constraints you like. Just make it work.
 	GridBagConstraints basic = new GridBagConstraints();
-	basic.gridx=0;
-	basic.gridy=1;
-	basic.gridwidth=1;
-	basic.gridheight=1;
-	basic.ipadx = 100;
-	basic.ipady = 100;
-	basic.insets = new Insets(2,2,2,2);
+	//basic.gridx=0;
+	//basic.gridy=1;
+	//basic.gridwidth=1;
+	//basic.gridheight=1;
+	
 	// This is really a constant in the GrdiBagConstraints. This way we 
 	// don't need to know what type/value "BOTH" is
 	    
@@ -112,69 +109,77 @@ public class GameWindow extends JFrame implements ActionListener
 	//argument to the constructor that adds elements. 
  
 
+// Initializing the 16 grid slots: e12 = row 1, col 2
 	JPanel e11 = new JPanel();
-	JPanel e21 = new JPanel();
-	JPanel e31 = new JPanel();
-	JPanel e41 = new JPanel();
-	
 	JPanel e12 = new JPanel();
-	JPanel e22 = new JPanel();
-	JPanel e32 = new JPanel();
-	JPanel e42 = new JPanel();
-	
 	JPanel e13 = new JPanel();
-	JPanel e23 = new JPanel();
-	JPanel e33 = new JPanel();
-	JPanel e43 = new JPanel();
-	
 	JPanel e14 = new JPanel();
+	
+	JPanel e21 = new JPanel();
+	JPanel e22 = new JPanel();
+	JPanel e23 = new JPanel();
 	JPanel e24 = new JPanel();
+	
+	JPanel e31 = new JPanel();
+	JPanel e32 = new JPanel();
+	JPanel e33 = new JPanel();
 	JPanel e34 = new JPanel();
+	
+	JPanel e41 = new JPanel();
+	JPanel e42 = new JPanel();
+	JPanel e43 = new JPanel();
 	JPanel e44 = new JPanel();
 	
-	JPanel[][] board ={{e11,e21,e31,e41},
-					  {e12,e22,e32,e42},	
-					  {e13,e23,e33,e43},				
-					  {e14,e24,e34,e44}};
+	JPanel[][] grid ={{e11,e12,e13,e14},
+					  {e21,e22,e23,e24},	
+					  {e31,e32,e33,e34},				
+					  {e41,e42,e43,e44}};
 	
 	
+	basic.ipadx = 100;
+	basic.ipady = 100;
+	//basic.insets = new Insets(2,2,2,2);
+	
+	//Places grid squares in their correct positions
 	for (int row = 2; row <=5; row++)
 	{
+		basic.gridy = row;
 		for (int col = 1; col <=4; col++)
 		{
 			basic.gridx = col;
-			basic.gridy = row;
-			add(board[col-1][row-2], basic);
+			
+			add(grid[row-2][col-1], basic);
 		}
 	}
 	
 	
-	
+// Initializing the 16 piece slots: p10 = row 1, col 0
+
 	JPanel p00 = new JPanel();
-	JPanel p01 = new JPanel();
-	JPanel p02 = new JPanel();
-	JPanel p03 = new JPanel();	
-	JPanel p04 = new JPanel();
-	JPanel p05 = new JPanel();
-	JPanel p06 = new JPanel();
-	JPanel p07 = new JPanel();
-	
 	JPanel p10 = new JPanel();
-	JPanel p11 = new JPanel();
-	JPanel p12 = new JPanel();
-	JPanel p13 = new JPanel();
-	JPanel p14 = new JPanel();
+	JPanel p20 = new JPanel();
+	JPanel p30 = new JPanel();	
+	JPanel p40 = new JPanel();
+	JPanel p50 = new JPanel();
+	JPanel p60 = new JPanel();
+	JPanel p70 = new JPanel();
+	
+	JPanel p05 = new JPanel();
 	JPanel p15 = new JPanel();
-	JPanel p16 = new JPanel();
-	JPanel p17 = new JPanel();
+	JPanel p25 = new JPanel();
+	JPanel p35 = new JPanel();
+	JPanel p45 = new JPanel();
+	JPanel p55 = new JPanel();
+	JPanel p65 = new JPanel();
+	JPanel p75 = new JPanel();
 	
 	
-	JPanel[][] pieces = {{p00,p01,p02,p03,p04,p05,p06,p07},
-						 {p10,p11,p12,p13,p14,p15,p16,p17}};
+	JPanel[][] pieces = {{p00,p10,p20,p30,p40,p50,p60,p70},
+						 {p05,p15,p25,p35,p45,p55,p65,p75}};
 			
 		
-	
-	basic.insets = new Insets(2,100,2,100);
+	//Places pieces in their correct positions
+	basic.insets = new Insets(1,100,1,100);
 	for (int row = 0; row <=7; row++)
 	{
 		basic.gridx = 0;
@@ -199,7 +204,7 @@ public class GameWindow extends JFrame implements ActionListener
 	basic.ipady = 10;
 	basic.gridwidth = 4;
 	basic.gridheight = 1;
-	basic.insets = new Insets(2,2,2,2);
+	basic.insets = new Insets(1,1,1,1);
 	add(this.addButtons(), basic);
 	
 	
@@ -216,17 +221,26 @@ public class GameWindow extends JFrame implements ActionListener
     // Does nothing right now.
 	JPanel panel = new JPanel();
 	
-    lbutton = new JButton("new");
+    lbutton = new JButton("New");
+    //lbutton.setBounds(40, 100, 100, 60);
+    lbutton.setPreferredSize(new Dimension(133, 100));
+    lbutton.setFont(new Font("Arial", Font.PLAIN, 20));
 	panel.add(lbutton);
     lbutton.addActionListener(this);
     lbutton.setActionCommand("new");
 	
-    mbutton = new JButton("reset");
+    mbutton = new JButton("Reset");
+    //mbutton.setBounds(40, 100, 100, 60);
+    mbutton.setPreferredSize(new Dimension(133, 100));
+    mbutton.setFont(new Font("Arial", Font.PLAIN, 20));
 	panel.add(mbutton);
     mbutton.addActionListener(this);
     mbutton.setActionCommand("reset");
 	
-    rbutton = new JButton("exit");
+    rbutton = new JButton("Exit");
+    //rbutton.setBounds(40, 100, 100, 60);
+    rbutton.setPreferredSize(new Dimension(133, 100));
+    rbutton.setFont(new Font("Arial", Font.PLAIN, 20));
 	panel.add(rbutton);
     rbutton.addActionListener(this);
     rbutton.setActionCommand("exit");
