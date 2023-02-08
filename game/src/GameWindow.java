@@ -72,7 +72,7 @@ public class GameWindow extends JFrame implements ActionListener
    */
 
   public void actionPerformed(ActionEvent e) {
-    if("exit".equals(e.getActionCommand()))
+    if("exit".equals(e.getActionCommand())) 
       System.exit(0);
     if("reset".equals(e.getActionCommand()))
       System.out.println("reset pressed\n");

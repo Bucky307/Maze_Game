@@ -52,7 +52,7 @@ public class Main
 
     try {
       // The 4 that are installed on Linux here
-      // May have to test on Windows boxes to see what is there.
+      // May have to test on Windows boxes to see what is there. 
       // And frankly, I do NOT care about what Macs may do. 
       UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
       // This is the "Java" or CrossPlatform version and the default
