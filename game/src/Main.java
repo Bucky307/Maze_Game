@@ -33,7 +33,7 @@ public class Main
     // You HAVE TO use this dimension for the game OR (1000, 1000)
     // Those are the ONLY options. 
 
-    game.setSize(new Dimension(1000, 1000));
+    game.setSize(new Dimension(900, 1000));
 
     game.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -41,7 +41,7 @@ public class Main
     // You can use whatever you like.
     // Use colors that are viewable on ALL DEVICES, Stay away from yellows, do
     // NOT use black or white. 
-    game.getContentPane().setBackground(Color.magenta);
+    game.getContentPane().setBackground(Color.pink);
     game.setUp();
     
     // May or may not need this
