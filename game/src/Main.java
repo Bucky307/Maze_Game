@@ -45,7 +45,6 @@ public class Main
     game.setUp();
     
     // May or may not need this
-    
     game.setVisible(true);
 
     // You will HAVE to READ some documentation and catch exceptions so get used

@@ -24,7 +24,6 @@ import java.awt.event.ActionListener;
 public class GameWindow extends JFrame implements ActionListener
 {
 	
-
   /**
    * because it is a serializable object, need this or javac
    * complains <b>a lot</b>, the ID can be any integer.
