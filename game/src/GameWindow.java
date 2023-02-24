@@ -1,259 +1,159 @@
-/**
- * @author Kim Buckner
- * Date: Jan 13, 2019
- * Updated: Jan 12, 2023
- *
- * This is the actual "game". Will have to make some major changes.
- * This is just a "hollow" shell.
- *
- * When you get done, I should see the buttons at the top in the "play" area
- * (NOT a pull-down menu). The only one that should do anything is Quit.
- *
- * Should also see something that shows where the 4x4 board and the "spare"
- * tiles will be when we get them stuffed in.
- *
- * This COULD be part of a package but I choose to make the starting point NOT a
- * package. However all other added elements should certainly sub-packages.
+/*
+ * @author Buck Harris
+ * Date: Feb 13, 2023
+ * Updated: Feb 19, 2023
  */
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 
-public class GameWindow extends JFrame implements ActionListener
+public class GameWindow extends JFrame implements ActionListener, MouseListener
 {
+ public static final long serialVersionUID=1;
+ public JButton lbutton, rbutton, mbutton;
+ public boolean tileFlag;
+ public int MoveX, MoveY;
+ public TileHolder holders;
+ public Board board;
+ public JPanel tile;
+
+ public GameWindow(String s)
+ {
+  super(s);
+  GridBagLayout gbl = new GridBagLayout();
+  setLayout(gbl);
+ }
+
+ public void actionPerformed(ActionEvent e) 
+ {
+  if("Quit".equals(e.getActionCommand()))  
+  System.exit(0);
+ }
+ public void setUp()
+ {
+  GridBagConstraints basic = new GridBagConstraints();
+  GridBagConstraints basic2 = new GridBagConstraints();
+
+ //___________Adding the Piece Holders___________
+  holders = new TileHolder(basic);
+  holders.setGameWindow(this);
+  basic.ipadx = 1;
+  basic.ipady = 1;
+  basic.insets = new Insets(1,50,1,50);
+  basic.gridx = 0;
+  basic.gridy = 0;
+  basic.gridheight = 8;
+  add(holders.ReturnPanel_L(), basic);
+  basic.gridx = 2;
+  basic.gridy = 0;
+  add(holders.ReturnPanel_R(), basic);
 	
-  /**
-   * because it is a serializable object, need this or javac
-   * complains <b>a lot</b>, the ID can be any integer.
-   */
-  public static final long serialVersionUID=1;
+  Tile tiles = new Tile(basic, holders);
+  tiles.setGameWindow(this);
 
-  /*
-   * This is so I can try changing the starting point easily. Can certainly be
-   * left out altogether. 
-   */
-  private int startAt=1;
+	
+//___________Adding the Board___________
+ board = new Board(basic2);
+ board.setGameWindow(this);
+ basic.ipadx = 0;
+ basic.ipady = 0;
+ basic.gridx = 1;
+ basic.gridy = 1;
+ basic.insets = new Insets(75, 10, 10 ,10);
+ add(board.ReturnBoard(), basic);
+	
 
-  /**
-   *  The control  buttons that will part of the Game Window
-   *  left, right, middle.
-   */
-  public JButton lbutton, rbutton, mbutton;
+//___________Adding the Buttons___________
+ basic.gridx=1;
+ basic.gridy=0;
+ basic.ipadx = 0;
+ basic.ipady = 0;
+ basic.gridwidth = 1;
+ basic.gridheight = 1;
+ basic.insets = new Insets(1,1,1,1);
+ add(this.addButtons(), basic);
 
-  /**
-   * Constructor sets the window name using super(), changes the layout,
-   * which you really need to read up on, and maybe you can see why I chose
-   * this one.
-   *
-   * If you don't want to use this layout, feel free to change it. Or get rid of
-   * it altogether. You might also want to look at things like "layered"
-   * panes/frames and using an InnerFrame. It is all up to you. 
-   *
-   * @param s string which is the name of the window. 
-   */
-
-  public GameWindow(String s)
+ return;
+ }
+//___________Function to Add the Button___________
+ public JPanel addButtons()
+ {
+  JPanel ButtonPanel = new JPanel();
+  JButton[] buttons = {lbutton, mbutton, rbutton};
+  String[] action = {"New Game", "Reset", "Quit"};
+	
+  for (int i = 0; i < 3; i++)
   {
-    super(s);
-    GridBagLayout gbl = new GridBagLayout();
-    setLayout(gbl);
+   buttons[i] = new JButton(action[i]);
+   buttons[i].setBorder(BorderFactory.createLineBorder(Color.black));
+   buttons[i].setPreferredSize(new Dimension(75, 50));
+   buttons[i].setFont(new Font("Arial", Font.PLAIN, 12));
+   ButtonPanel.add(buttons[i]);
+   buttons[i].addActionListener(this);
+   buttons[i].setActionCommand(action[i]);
   }
+  return ButtonPanel;
+}
+  //___________Called when Tile is Clicked___________
+public void tileClick(JPanel tile)
+{
+ tileFlag = true;
+ this.tile = tile;
 
-  /**
-   * For the buttons
-   * @param e is the ActionEvent
-   * 
-   * BTW you can ask the event for the name of the object generating event.
-   * The odd syntax for non-java people is that "exit" for instance is
-   * converted to a String object, then that object's equals() method is
-   * called.
-   */
-
-  public void actionPerformed(ActionEvent e) {
-    if("exit".equals(e.getActionCommand()))  
-      System.exit(0);
-    if("reset".equals(e.getActionCommand()))
-      System.out.println("reset pressed\n");
-    if("new".equals(e.getActionCommand())) 
-      System.out.println("new pressed\n");
-    }
-
-  /**
-   *  Establishes the inital board
-   */
-
-  public void setUp()
-  {
-	 // actually create the array for elements, make sure it is big enough
-	    
-	    // Need to play around with the dimensions and the gridx/y values
-	    // These constraints are going to be added to the pieces/parts I 
-	    // stuff into the "GridBag".
-	    // YOU CAN USE any type of constraints you like. Just make it work.
-	GridBagConstraints basic = new GridBagConstraints();
-	//basic.gridx=0;
-	//basic.gridy=1;
-	//basic.gridwidth=1;
-	//basic.gridheight=1;
-	
-	// This is really a constant in the GrdiBagConstraints. This way we 
-	// don't need to know what type/value "BOTH" is
-	    
-	basic.fill=GridBagConstraints.BOTH;
-	
-	//Here I should create 16 -Elements- to put into my gameBoard
-	//THE ELEMENTS CANNOT BE BUTTONS!!!!!!!!
-	//I can also just arrange things as I like then have methods, or an
-	//argument to the constructor that adds elements. 
+}
+//___________Called when Panel is Clicked___________
+public void panelClicked(JPanel panel) 
+{	  
+ Character spot = panel.getName().charAt(0);
+ MoveX = Character.getNumericValue(panel.getName().charAt(1));
+ MoveY =  Character.getNumericValue(panel.getName().charAt(2));
  
-
-// Initializing the 16 grid slots: e12 = row 1, col 2
-	JPanel e11 = new JPanel();
-	JPanel e12 = new JPanel();
-	JPanel e13 = new JPanel();
-	JPanel e14 = new JPanel();
-	
-	JPanel e21 = new JPanel();
-	JPanel e22 = new JPanel();
-	JPanel e23 = new JPanel();
-	JPanel e24 = new JPanel();
-	
-	JPanel e31 = new JPanel();
-	JPanel e32 = new JPanel();
-	JPanel e33 = new JPanel();
-	JPanel e34 = new JPanel();
-	
-	JPanel e41 = new JPanel();
-	JPanel e42 = new JPanel();
-	JPanel e43 = new JPanel();
-	JPanel e44 = new JPanel();
-	
-	JPanel[][] grid ={{e11,e12,e13,e14},
-					  {e21,e22,e23,e24},	
-					  {e31,e32,e33,e34},				
-					  {e41,e42,e43,e44}};
-	
-	
-	basic.ipadx = 100;
-	basic.ipady = 100;
-	//basic.insets = new Insets(2,2,2,2);
-	
-	//Places grid squares in their correct positions
-	for (int row = 2; row <=5; row++)
-	{
-		basic.gridy = row;
-		for (int col = 1; col <=4; col++)
-		{
-			basic.gridx = col;
-			
-			add(grid[row-2][col-1], basic);
-		}
-	}
-	
-	
-// Initializing the 16 piece slots: p10 = row 1, col 0
-
-	JPanel p00 = new JPanel();
-	JPanel p10 = new JPanel();
-	JPanel p20 = new JPanel();
-	JPanel p30 = new JPanel();	
-	JPanel p40 = new JPanel();
-	JPanel p50 = new JPanel();
-	JPanel p60 = new JPanel();
-	JPanel p70 = new JPanel();
-	
-	JPanel p05 = new JPanel();
-	JPanel p15 = new JPanel();
-	JPanel p25 = new JPanel();
-	JPanel p35 = new JPanel();
-	JPanel p45 = new JPanel();
-	JPanel p55 = new JPanel();
-	JPanel p65 = new JPanel();
-	JPanel p75 = new JPanel();
-	
-	
-	JPanel[][] pieces = {{p00,p10,p20,p30,p40,p50,p60,p70},
-						 {p05,p15,p25,p35,p45,p55,p65,p75}};
-			
-		
-	//Places pieces in their correct positions
-	basic.insets = new Insets(1,100,1,100);
-	for (int row = 0; row <=7; row++)
-	{
-		basic.gridx = 0;
-		basic.gridy = row;
-		add(pieces[0][row], basic);
-		basic.gridx = 5;
-		basic.gridy = row;
-		add(pieces[1][row], basic);
-	}
-	
-
-	// Now I add each one, modifying the default gridx/y and add
-	// it along with the modified constraint
-	    
-
-	// And of course I have to add the buttons. Simple but not trivial.
-
-
-	basic.gridx=1;
-	basic.gridy=0;
-	basic.ipadx = 10;
-	basic.ipady = 10;
-	basic.gridwidth = 4;
-	basic.gridheight = 1;
-	basic.insets = new Insets(1,1,1,1);
-	add(this.addButtons(), basic);
-	
-	
-	return;
+ if (tileFlag == true)
+ {
+  if (spot == 'g')
+  {
+   board.moveTile(tile, MoveX, MoveY);
+  }
+  else if (spot == 'l')
+  {
+   holders.moveTile(tile, MoveY, 'l');
+  }
+  else if (spot == 'r')
+  {
+   holders.moveTile(tile, MoveY, 'r');
+  }  
+}
+ tileFlag = false;
+ repaint();
+}
+  
+@Override
+public void mouseClicked(MouseEvent e) {
   }
 
-  /**
-   * Used by setUp() to configure the buttons on a button bar and
-   * add it to the gameBoard
-   */
-
-  public JPanel addButtons(){
-
-    // Does nothing right now.
-	JPanel panel = new JPanel();
+@Override
+public void mousePressed(MouseEvent e) {
+	// TODO Auto-generated method stub
 	
-    lbutton = new JButton("New");
-    //lbutton.setBounds(40, 100, 100, 60);
-    lbutton.setPreferredSize(new Dimension(133, 100));
-    lbutton.setFont(new Font("Arial", Font.PLAIN, 20));
-	panel.add(lbutton);
-    lbutton.addActionListener(this);
-    lbutton.setActionCommand("new");
+}
+
+@Override
+public void mouseReleased(MouseEvent e) {
+	// TODO Auto-generated method stub
 	
-    mbutton = new JButton("Reset");
-    //mbutton.setBounds(40, 100, 100, 60);
-    mbutton.setPreferredSize(new Dimension(133, 100));
-    mbutton.setFont(new Font("Arial", Font.PLAIN, 20));
-	panel.add(mbutton);
-    mbutton.addActionListener(this);
-    mbutton.setActionCommand("reset");
+}
+
+@Override
+public void mouseEntered(MouseEvent e) {
+	// TODO Auto-generated method stub
 	
-    rbutton = new JButton("Exit");
-    //rbutton.setBounds(40, 100, 100, 60);
-    rbutton.setPreferredSize(new Dimension(133, 100));
-    rbutton.setFont(new Font("Arial", Font.PLAIN, 20));
-	panel.add(rbutton);
-    rbutton.addActionListener(this);
-    rbutton.setActionCommand("exit");
+}
 
-
-	// Add button to JPanel
-
-    add(panel);
-
-    
-    //setVisible(true);
-    //setDefaultCloseOperation(EXIT_ON_CLOSE);    
-    return panel;
-  }
+@Override
+public void mouseExited(MouseEvent e) {
+	// TODO Auto-generated method stub
+	
+}
 
 };
