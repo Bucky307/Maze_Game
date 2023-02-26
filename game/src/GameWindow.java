@@ -8,15 +8,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class GameWindow extends JFrame implements ActionListener, MouseListener
+public class GameWindow extends JFrame implements ActionListener
 {
  public static final long serialVersionUID=1;
  public JButton lbutton, rbutton, mbutton;
- public boolean tileFlag;
- public int MoveX, MoveY;
- public TileHolder holders;
- public Board board;
- public JPanel tile;
+ 
+ private static JPanel grid, LPanel, RPanel;
+ private static Tile[] tile;
+ private static Tile lastTileClicked = null;
 
  public GameWindow(String s)
  {
@@ -32,39 +31,72 @@ public class GameWindow extends JFrame implements ActionListener, MouseListener
  }
  public void setUp()
  {
+// Initializing the class variables
   GridBagConstraints basic = new GridBagConstraints();
-  GridBagConstraints basic2 = new GridBagConstraints();
+  grid = new JPanel(new GridBagLayout());
+  LPanel = new JPanel(new GridBagLayout());
+  RPanel = new JPanel(new GridBagLayout());
+  tile = new Tile[16];
 
- //___________Adding the Piece Holders___________
-  holders = new TileHolder(basic);
-  holders.setGameWindow(this);
+  for (int i = 0; i < 16; i++)
+  {
+   tile[i] = new Tile(i);
+  }
+  
+// Adding the playboxes to the grid panel
+  basic.ipadx = 50;
+  basic.ipady = 50;
+  basic.insets = new Insets(0, 0, 0, 0);
+  for (int i = 0; i < 4; i ++)
+  {
+   basic.gridx = i;
+   for (int j = 0; j < 4; j++)
+   {
+	basic.gridy = j;
+	grid.add(new playbox(i,j), basic);
+
+   }
+  }
+  
+// Adding the playboxes and tiles to L&R Panels
+  basic.gridx = 0;
+  basic.insets = new Insets(10, 10, 10 ,10);
+  for (int i = 0; i < 8; i++)
+  {
+   basic.gridy = i;
+   tile[i] = new Tile(i);
+   LPanel.add(new playbox(0,i), basic);
+   ((JPanel)LPanel.getComponent(i)).add(tile[i]);
+   ((JPanel)LPanel.getComponent(i)).setBorder(null);
+   
+   tile[i+8] = new Tile(i+8);
+   RPanel.add(new playbox(0,i), basic);
+   ((JPanel)RPanel.getComponent(i)).add(tile[i+8]);
+   ((JPanel)RPanel.getComponent(i)).setBorder(null);
+  }
+
+  
+  basic.ipadx = 0;
+  basic.ipady = 0;
+  basic.gridx = 1;
+  basic.gridy = 1;
+  basic.insets = new Insets(75, 10, 10 ,10);
+  add(grid, basic);
+  
+// Adding the L&R Panels
   basic.ipadx = 1;
   basic.ipady = 1;
   basic.insets = new Insets(1,50,1,50);
   basic.gridx = 0;
   basic.gridy = 0;
   basic.gridheight = 8;
-  add(holders.ReturnPanel_L(), basic);
+  add(LPanel,basic);
   basic.gridx = 2;
   basic.gridy = 0;
-  add(holders.ReturnPanel_R(), basic);
-	
-  Tile tiles = new Tile(basic, holders);
-  tiles.setGameWindow(this);
+  add(RPanel, basic);
 
-	
-//___________Adding the Board___________
- board = new Board(basic2);
- board.setGameWindow(this);
- basic.ipadx = 0;
- basic.ipady = 0;
- basic.gridx = 1;
- basic.gridy = 1;
- basic.insets = new Insets(75, 10, 10 ,10);
- add(board.ReturnBoard(), basic);
-	
-
-//___________Adding the Buttons___________
+  
+// Adding the Buttons
  basic.gridx=1;
  basic.gridy=0;
  basic.ipadx = 0;
@@ -73,10 +105,11 @@ public class GameWindow extends JFrame implements ActionListener, MouseListener
  basic.gridheight = 1;
  basic.insets = new Insets(1,1,1,1);
  add(this.addButtons(), basic);
-
+  
  return;
+ 
  }
-//___________Function to Add the Button___________
+// Function to Add the Button
  public JPanel addButtons()
  {
   JPanel ButtonPanel = new JPanel();
@@ -95,65 +128,36 @@ public class GameWindow extends JFrame implements ActionListener, MouseListener
   }
   return ButtonPanel;
 }
-  //___________Called when Tile is Clicked___________
-public void tileClick(JPanel tile)
+
+public static void tileClick(Tile tile)
 {
- tileFlag = true;
- this.tile = tile;
+	 
+ if (lastTileClicked != null) 
+  lastTileClicked.setBackground(Color.magenta);
+
+  lastTileClicked = tile;
+  lastTileClicked.setBackground(new Color(150, 0, 150));
 
 }
-//___________Called when Panel is Clicked___________
-public void panelClicked(JPanel panel) 
-{	  
- Character spot = panel.getName().charAt(0);
- MoveX = Character.getNumericValue(panel.getName().charAt(1));
- MoveY =  Character.getNumericValue(panel.getName().charAt(2));
- 
- if (tileFlag == true)
- {
-  if (spot == 'g')
+
+public static void playboxClick(playbox pbox) 
+{
+  if (lastTileClicked != null) 
   {
-   board.moveTile(tile, MoveX, MoveY);
+   Container parent = lastTileClicked.getParent();
+   if (parent instanceof playbox) 
+   {
+    ((playbox) parent).setBorder(BorderFactory.createLineBorder(Color.BLACK)); // add black border to parent playbox
+    ((playbox) parent).remove(lastTileClicked);
+   }
+   pbox.add(lastTileClicked);
+   pbox.setBorder(null); // remove border from the new playbox
+   lastTileClicked.setBackground(Color.magenta);
+   lastTileClicked = null;
+   grid.repaint();
+   LPanel.repaint();
+   RPanel.repaint();
   }
-  else if (spot == 'l')
-  {
-   holders.moveTile(tile, MoveY, 'l');
-  }
-  else if (spot == 'r')
-  {
-   holders.moveTile(tile, MoveY, 'r');
-  }  
-}
- tileFlag = false;
- repaint();
-}
-  
-@Override
-public void mouseClicked(MouseEvent e) {
-  }
-
-@Override
-public void mousePressed(MouseEvent e) {
-	// TODO Auto-generated method stub
-	
-}
-
-@Override
-public void mouseReleased(MouseEvent e) {
-	// TODO Auto-generated method stub
-	
-}
-
-@Override
-public void mouseEntered(MouseEvent e) {
-	// TODO Auto-generated method stub
-	
-}
-
-@Override
-public void mouseExited(MouseEvent e) {
-	// TODO Auto-generated method stub
-	
 }
 
 };

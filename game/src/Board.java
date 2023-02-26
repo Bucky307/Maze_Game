@@ -77,7 +77,7 @@ public class Board extends JFrame implements MouseListener{
   }
 		
 }
-	
+
 //Takes a tile and moves it to the correct grid position
 public void moveTile(JPanel tile, int x, int y)
 {
@@ -93,7 +93,7 @@ public void moveTile(JPanel tile, int x, int y)
 		
  board.add(tile, basic);
  Container container = tile.getParent();
- container.setComponentZOrder(tile, 0);	
+ container.setComponentZOrder(tile, 0);
 }
 
 //Return the board
