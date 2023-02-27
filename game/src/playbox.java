@@ -11,13 +11,9 @@ import java.awt.event.*;
 public class playbox extends JPanel implements MouseListener
 {
 
-private int row, col;
-
 public playbox(int row, int col)
 {
  super(new BorderLayout());
- this.row = row;
- this.col = col;
  super.setBorder(BorderFactory.createLineBorder(Color.black));
  super.setPreferredSize(new Dimension(0, 0));
  super.addMouseListener(this);
@@ -27,13 +23,13 @@ public playbox(int row, int col)
 @Override
 public void mouseClicked(MouseEvent e) 
 {
- GameWindow.playboxClick(this); 
 }
 
 @Override
 public void mousePressed(MouseEvent e) {
 // TODO Auto-generated method stub
-		
+ GameWindow.playboxClick(this); 
+
 }
 
 @Override

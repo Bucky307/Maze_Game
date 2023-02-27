@@ -9,12 +9,10 @@ import java.awt.event.*;
 
 public class Tile extends JPanel implements MouseListener 
 {
-private int num;
 
 public Tile(int num) 
 {
  super(new BorderLayout());
- this.num = num;
  super.setName(String.valueOf(num));
  super.addMouseListener(this);
  JLabel label = new JLabel(String.format("%02d", num));
@@ -29,22 +27,21 @@ public Tile(int num)
 @Override
 public void mouseClicked(MouseEvent e) 
 {
-	GameWindow.tileClick(this); 
+
 }
 
 @Override
 public void mousePressed(MouseEvent e) {
+ GameWindow.tileClick(this); 
 }
 
 @Override
 public void mouseReleased(MouseEvent e) {
-    
-    	
+      	
 }
 
 @Override
 public void mouseEntered(MouseEvent e) {
-    	
 }
 
 @Override
