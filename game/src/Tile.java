@@ -20,7 +20,7 @@ public Tile(int num)
  super.addMouseListener(this);
  JLabel label = new JLabel(String.format("%02d", num));
  label.setHorizontalAlignment(SwingConstants.CENTER); 
- label.setFont(new Font("Arial", Font.PLAIN, 12));
+ label.setFont(new Font("Arial", Font.PLAIN, 18));
  super.add(label, BorderLayout.CENTER); 
  super.setBackground(Color.magenta);
  super.setPreferredSize(new Dimension(0, 0));
