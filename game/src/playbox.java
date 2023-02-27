@@ -11,7 +11,7 @@ import java.awt.event.*;
 public class playbox extends JPanel implements MouseListener
 {
 
- private int row, col;
+private int row, col;
 
 public playbox(int row, int col)
 {
