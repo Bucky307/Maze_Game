@@ -26,21 +26,15 @@ public class Main
   public static void main(String[] args)
   {
     // This is the play area
-    // HEY FIX THE NAME, WHAT IS ****YOUR**** GROUP INSTEAD OF 'X'
+    // Initializes the game window and sets the name
     GameWindow game = new GameWindow("Group Foxtrot aMaze");
     
-    // have to override the default layout to reposition things!!!!!!!
-    // You HAVE TO use this dimension for the game OR (1000, 1000)
-    // Those are the ONLY options. 
-
+    // Sets the game window size to 900w by 1000h
     game.setSize(new Dimension(900, 1000));
 
     game.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-    // I chose 'cyan' because it is not white or black or especially annoying.
-    // You can use whatever you like.
-    // Use colors that are viewable on ALL DEVICES, Stay away from yellows, do
-    // NOT use black or white. 
+    // Sets the gameWindow's background color to pink.
     game.getContentPane().setBackground(Color.pink);
     game.setUp();
     
