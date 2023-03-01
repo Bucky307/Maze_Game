@@ -130,10 +130,10 @@ public JPanel addButtons()
 public static void tileClick(Tile tile)
 {	 
  if (lastTileClicked != null) 
-  lastTileClicked.setBackground(Color.magenta);
+  lastTileClicked.setBackground(new Color(175,175,175));
 
  lastTileClicked = tile;
- lastTileClicked.setBackground(new Color(150, 0, 150));
+ lastTileClicked.setBackground(new Color(100, 100, 100));
 }
 // Moves the tile to the playbox that was clicked
 public static void playboxClick(playbox pbox) 
@@ -148,7 +148,7 @@ public static void playboxClick(playbox pbox)
   }
   pbox.add(lastTileClicked);
   pbox.setBorder(null); // remove border from the new playbox
-  lastTileClicked.setBackground(Color.magenta);
+  lastTileClicked.setBackground(new Color(175,175,175));
   lastTileClicked = null;
   grid.repaint();
   LPanel.repaint();
