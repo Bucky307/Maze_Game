@@ -20,7 +20,7 @@ public Tile(int num)
  label.setHorizontalAlignment(SwingConstants.CENTER); 
  label.setFont(new Font("Arial", Font.PLAIN, 18));
  super.add(label, BorderLayout.CENTER); 
- super.setBackground(Color.magenta);
+ super.setBackground(new Color(175,175,175));
  super.setPreferredSize(new Dimension(0, 0));
  super.setForeground(Color.black);
 }
