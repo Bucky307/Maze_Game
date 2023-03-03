@@ -2,6 +2,10 @@
  * @author Buck Harris
  * Date: Feb 13, 2023
  * Updated: Feb 19, 2023
+ *
+ * The GameWindow for the aMaze project
+ * Holds all the components that will be part of the game
+ * Also graphically displays all of them
  */
 
 import javax.swing.*;
@@ -10,15 +14,16 @@ import java.awt.event.*;
 
 public class GameWindow extends JFrame implements ActionListener
 {
+//Serializes game window. If this isn't included, javac complains
 public static final long serialVersionUID=1;
-public JButton lbutton, rbutton, mbutton;
- 
+
+public JButton lbutton, rbutton, mbutton; 
 private static JPanel grid, LPanel, RPanel;
 private static Tile[] tile;
 private static Tile lastTileClicked = null;
 
 /*
- * Constructor for game window
+ * Constructor for GameWindow
  * Takes a string to set the window name
  */
 public GameWindow(String s)
@@ -182,7 +187,6 @@ public static void playboxClick(playbox pbox)
   LPanel.repaint();
   RPanel.repaint();
  }
-
 }
 
 };
