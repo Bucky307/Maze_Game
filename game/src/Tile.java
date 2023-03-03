@@ -37,27 +37,24 @@ public Tile(int num)
 
 // Passes which tile is pressed to gameWindow
 @Override
-public void mouseClicked(MouseEvent e) 
-{
-
-}
-
-@Override
 public void mousePressed(MouseEvent e) {
  GameWindow.tileClick(this); 
 }
 
+/*
+ * Other methods of mouseListener
+ * Need to be added or there are issues
+ * Do nothing for the project
+ */
 @Override
-public void mouseReleased(MouseEvent e) {
-      	
-}
+public void mouseClicked(MouseEvent e) {}
 
 @Override
-public void mouseEntered(MouseEvent e) {
-}
+public void mouseReleased(MouseEvent e) {}
 
 @Override
-public void mouseExited(MouseEvent e) {
-    	
-}
+public void mouseEntered(MouseEvent e) {}
+
+@Override
+public void mouseExited(MouseEvent e) {}
 }
