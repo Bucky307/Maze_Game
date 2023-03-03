@@ -4,7 +4,7 @@
  * Updated: Feb 19, 2023
  *
  * The GameWindow for the aMaze project
- * Holds all the components that will be part of the game
+ * Initializes all the components that will be part of the game
  * Also graphically displays all of them
  */
 
