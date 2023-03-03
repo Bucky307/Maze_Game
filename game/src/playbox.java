@@ -22,38 +22,27 @@ public playbox(int row, int col)
  super.setPreferredSize(new Dimension(0, 0));
  super.addMouseListener(this);
 }
-	
-	
-@Override
-public void mouseClicked(MouseEvent e) 
-{
-}
 
+// Passes which playbox is clicked to GameWindow
 @Override
 public void mousePressed(MouseEvent e) {
-// TODO Auto-generated method stub
  GameWindow.playboxClick(this); 
-
 }
+
+/*
+ * Again these are added to avoid errors for now 
+ */
 
 @Override
-public void mouseReleased(MouseEvent e) {
-// TODO Auto-generated method stub
-}
+public void mouseClicked(MouseEvent e){}
 
 @Override
-public void mouseEntered(MouseEvent e) {
-// TODO Auto-generated method stub
-		
-}
+public void mouseReleased(MouseEvent e) {}
 
 @Override
-public void mouseExited(MouseEvent e) {
-// TODO Auto-generated method stub
-		
-}
+public void mouseEntered(MouseEvent e) {}
 
-	
-	
+@Override
+public void mouseExited(MouseEvent e) {}
 	
 }
