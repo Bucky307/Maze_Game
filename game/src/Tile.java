@@ -31,7 +31,6 @@ public Tile(int num, float[] lineCoords)
  
 }
 
-
 //Paints the lines from the .mze on the tile
 @Override
 protected void paintComponent(Graphics g) 
