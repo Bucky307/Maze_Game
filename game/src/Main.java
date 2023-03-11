@@ -37,7 +37,7 @@ public class Main
     // Sets the gameWindow's background color to pink.
     game.getContentPane().setBackground(Color.pink);
     game.setUp();
-    
+   
     // May or may not need this 
     game.setVisible(true);
 
