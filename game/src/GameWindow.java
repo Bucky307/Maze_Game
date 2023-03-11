@@ -66,7 +66,6 @@ try
  byte[] numTilesBytes = new byte[4];
  inputStream.read(numTilesBytes);
  int numTiles = ByteBuffer.wrap(numTilesBytes).getInt();
- System.out.println("Number of tiles: " + numTiles);
 
  //allocate memory for lineCoords array
  lineCoords = new float[numTiles][]; 
@@ -93,7 +92,7 @@ try
    inputStream.read(lineBytes);
    ByteBuffer.wrap(lineBytes).asFloatBuffer().get(lineCoords[i], j * 4, 4);
 
-            
+           
   }
  }
 } catch (FileNotFoundException e) 
