@@ -15,11 +15,13 @@ public class Tile extends JPanel implements MouseListener
 {
 
  private float[] lineCoords;
+
 /*
  * Constructor for the tile class.
  * For this version it only sets the color and label
  * Takes an int for the label
  */
+
 public Tile(int num, float[] lineCoords) 
 {
  super(new BorderLayout());
@@ -30,7 +32,6 @@ public Tile(int num, float[] lineCoords)
  super.setPreferredSize(new Dimension(0, 0));
  
 }
-
 
 //Paints the lines from the .mze on the tile
 @Override
@@ -50,6 +51,7 @@ protected void paintComponent(Graphics g)
  }
 }
 
+
 // Passes which tile is pressed to gameWindow
 @Override
 public void mousePressed(MouseEvent e) {
@@ -61,6 +63,7 @@ public void mousePressed(MouseEvent e) {
  * Need to be added or there are issues
  * Do nothing for the project
  */
+
 @Override
 public void mouseClicked(MouseEvent e) {}
 
