@@ -43,7 +43,7 @@ public class Main
     // NOT use black or white. 
     game.getContentPane().setBackground(Color.pink);
     game.setUp();
-    
+   
     // May or may not need this 
     game.setVisible(true);
 
