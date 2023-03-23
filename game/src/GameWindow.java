@@ -339,6 +339,7 @@ public void reset()
  { 
   lastTileClicked.setBackground(new Color(175,175,175));
  }
+ gridData = new int[4][4];
  lastTileClicked = null;
 }
 
