@@ -1,3 +1,4 @@
+
 /**
  * GameWindow class is the main class for the aMaze project.
  * It initializes all the components that will be part of the game and
@@ -357,6 +358,7 @@ public void mousePressed(MouseEvent e)
  lastTileClicked = null;
 }
 
+
 @Override
 public void mouseClicked(MouseEvent e) {}
 @Override
@@ -367,3 +369,4 @@ public void mouseEntered(MouseEvent e) {}
 public void mouseExited(MouseEvent e) {}
 
 };
+

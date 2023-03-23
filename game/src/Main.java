@@ -30,13 +30,16 @@ public class Main
   public static void main(String[] args)
   {
     // This is the play area
+
     GameWindow game = new GameWindow("Group Foxtrot aMaze");
     
+
     game.setSize(new Dimension(900, 1000));
 
     game.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     game.getContentPane().setBackground(Color.PINK);
+
     game.setUp();
    
     // May or may not need this 
