@@ -22,20 +22,24 @@ import java.awt.*;
 
 public class Main 
 {
-
+ /**
+ *				main creates a GameWindow object which allows the rest
+ *				of the program to function.
+ *	@param args standard parameter for main, allows console commands to be used.
+ */
   public static void main(String[] args)
   {
     // This is the play area
-    // Initializes the game window and sets the name
+
     GameWindow game = new GameWindow("Group Foxtrot aMaze");
     
-    // Sets the game window size to 900w by 1000h
+
     game.setSize(new Dimension(900, 1000));
 
     game.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-    // Sets the gameWindow's background color to pink.
-    game.getContentPane().setBackground(Color.pink);
+    game.getContentPane().setBackground(Color.PINK);
+
     game.setUp();
    
     // May or may not need this 

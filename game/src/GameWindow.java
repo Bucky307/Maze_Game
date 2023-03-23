@@ -1,14 +1,13 @@
 
-/*
- * @author Buck Harris
- * Date: Feb 13, 2023
- * Updated: Feb 19, 2023
+/**
+ * GameWindow class is the main class for the aMaze project.
+ * It initializes all the components that will be part of the game and
+ * graphically displays them.
  *
- * The GameWindow for the aMaze project
- * Initializes all the components that will be part of the game
- * Also graphically displays all of them
+ * @author Buck Harris
+ * @version 3.0
+ * @since 2023-02-13
  */
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -17,28 +16,42 @@ import javax.swing.JOptionPane;
 import java.util.Scanner;
 import java.nio.ByteBuffer;
 
-public class GameWindow extends JFrame implements ActionListener
+/**
+ * GameWindow class serves as the main container for the game grid and its components.
+ * It is responsible for coordinating the interaction between playboxes and tiles, 
+ * as well as managing the overall game state and user input through mouse events.
+ */
+public class GameWindow extends JFrame implements ActionListener, MouseListener
 {
-//Serializes game window. If this isn't included, javac complains
+//Serializes game window. If this isn't included, java complains
 public static final long serialVersionUID=1;
 
 public JButton lbutton, rbutton, mbutton; 
 private static JPanel grid, LPanel, RPanel;
+public static int[][] gridData = new int[4][4];
+public static playbox[][] pboxArr = new playbox[4][4];
 private static Tile[] tile;
-private static Tile lastTileClicked = null;
+public static Tile lastTileClicked = null;
 
-/*
- * Constructor for GameWindow
- * Takes a string to set the window name
+/**
+ * Constructor for GameWindow.
+ * Takes a string to set the window name.
+ *
+ * @param s The string which is passed into the method.
  */
 public GameWindow(String s)
 {
  super(s);
+ super.addMouseListener(this);
  GridBagLayout gbl = new GridBagLayout();
  setLayout(gbl);
 }
 
-// Uses actionListener to call button functions
+/**
+ * This method uses actionListener to call button functions.
+ *
+ * @param e the class which is used to return a result of a button action.
+ */
 public void actionPerformed(ActionEvent e) 
 {
  if("Quit".equals(e.getActionCommand()))  
@@ -46,15 +59,18 @@ public void actionPerformed(ActionEvent e)
  if("Reset".equals(e.getActionCommand()))  
   reset();
 }
-
-// Method to set up the game board
+/**
+ * This method sets up the game board.
+ * It takes the data from the .mze file and turns it into usable coordinates
+ * that are used to paint on top of the tile objects.
+ */
 public void setUp()
 {
 
 // Below take the data from the .mze file
 // and turns it into usable coordinates 
 // that we will use to paint on top of the 
-// tiles
+// tiles.
 File file = new File("input/default.mze");
 FileInputStream inputStream = null;
 float[][] lineCoords = null;
@@ -95,7 +111,15 @@ try
            
   }
  }
-} catch (FileNotFoundException e) 
+} 
+///
+/// This catch block stops the program if the maze file is missing
+///	or inaccessible.
+/// @throws FileNotFoundException if the expected .mze file
+/// cannot be reached
+///
+
+  catch (FileNotFoundException e) 
   {
    JOptionPane.showMessageDialog(null, "Error opening .mze file", "Error", JOptionPane.ERROR_MESSAGE);
    System.exit(0);
@@ -125,11 +149,13 @@ try
  grid = new JPanel(new GridBagLayout());
  LPanel = new JPanel(new GridBagLayout());
  RPanel = new JPanel(new GridBagLayout());
+ grid.addMouseListener(this);
+ LPanel.addMouseListener(this);
+ RPanel.addMouseListener(this);
  tile = new Tile[16];
 
  // Adds playboxes to the board
- basic.ipadx = 100;
- basic.ipady = 100;
+ basic.ipadx = 100; basic.ipady = 100;
  basic.insets = new Insets(0, 0, 0, 0);
  for (int i = 0; i < 4; i ++)
  {
@@ -137,7 +163,9 @@ try
   for (int j = 0; j < 4; j++)
   {
    basic.gridy = j;
-   grid.add(new playbox(i,j), basic);
+   gridData[j][i] = 0;
+   pboxArr[j][i] = new playbox(j,i);
+   grid.add(pboxArr[j][i], basic);
   }
  }
   
@@ -149,44 +177,36 @@ try
   // Left Panel
   basic.gridy = i;
   tile[i] = new Tile(i, lineCoords[i]);
-  LPanel.add(new playbox(0,i), basic);
+  LPanel.add(new playbox(), basic);
   ((JPanel)LPanel.getComponent(i)).add(tile[i]); 
   ((JPanel)LPanel.getComponent(i)).setBorder(null);
    
   // Right Panel
   tile[i+8] = new Tile(i+8, lineCoords[i+8]);
-  RPanel.add(new playbox(0,i), basic);
+  RPanel.add(new playbox(), basic);
   ((JPanel)RPanel.getComponent(i)).add(tile[i+8]);
   ((JPanel)RPanel.getComponent(i)).setBorder(null);
  }
 
  // Adds grid to the board
- basic.ipadx = 0;
- basic.ipady = 0; 
- basic.gridx = 1;
- basic.gridy = 1;
+ basic.ipadx = 0; basic.ipady = 0; 
+ basic.gridx = 1; basic.gridy = 1;
  basic.insets = new Insets(75, 10, 10 ,10);
  add(grid, basic);
   
  // Adds the L&R Panels
- basic.ipadx = 1;
- basic.ipady = 1;
+ basic.ipadx = 1; basic.ipady = 1;
  basic.insets = new Insets(1,50,1,50);
- basic.gridx = 0;
- basic.gridy = 0;
+ basic.gridx = 0; basic.gridy = 0;
  basic.gridheight = 8;
  add(LPanel,basic);
- basic.gridx = 2;
- basic.gridy = 0;
+ basic.gridx = 2; basic.gridy = 0;
  add(RPanel, basic);
   
  // Creates space for buttons and adds them
- basic.gridx=1;
- basic.gridy=0;
- basic.ipadx = 0;
- basic.ipady = 0;
- basic.gridwidth = 1;
- basic.gridheight = 1;
+ basic.gridx=1; basic.gridy=0;
+ basic.ipadx = 0; basic.ipady = 0;
+ basic.gridwidth = 1; basic.gridheight = 1;
  basic.insets = new Insets(10,10,10,10);
  add(this.addButtons(), basic);
   
@@ -194,7 +214,11 @@ try
  
 }
 
-// Function to generate the buttons
+/**
+ * Function to generate the buttons.
+ *
+ * @return JPanel containing the buttons.
+ */
 public JPanel addButtons()
 {
  JPanel ButtonPanel = new JPanel();
@@ -207,7 +231,7 @@ public JPanel addButtons()
  for (int i = 0; i < 3; i++)
  {
   buttons[i] = new JButton(action[i]);
-  buttons[i].setBorder(BorderFactory.createLineBorder(Color.black));
+  buttons[i].setBorder(BorderFactory.createLineBorder(Color.BLACK));
   buttons[i].setPreferredSize(new Dimension(100, 100));
   buttons[i].setFont(new Font("Arial", Font.PLAIN, 18));
   ButtonPanel.add(buttons[i]);
@@ -217,56 +241,132 @@ public JPanel addButtons()
  return ButtonPanel;
 }
 
-// Sets lastTileClicked when a tile is clicked
-public static void tileClick(Tile tile)
+/**
+ * Sets lastTileClicked when a tile is clicked.
+ *
+ * @param tile the Tile object that was clicked.
+ */public static void tileClick(Tile tile)
 {	 
  if (lastTileClicked != null)
+ {
   // Returns tile clicked before to its original color
   lastTileClicked.setBackground(new Color(175,175,175));
-
- // Changes the color of the most recently clicked tile
- lastTileClicked = tile;
- lastTileClicked.setBackground(new Color(100, 100, 100));
-}
-
-// Moves the tile to the playbox that was clicked
-public static void playboxClick(playbox pbox) 
-{
- if (lastTileClicked != null) 
- {
-  Container parent = lastTileClicked.getParent();
-   if (parent instanceof playbox) 
-   {
-    //Adds black border to spot tile used to be in
-    ((playbox) parent).setBorder(BorderFactory.createLineBorder(Color.BLACK));
-    ((playbox) parent).remove(lastTileClicked);
-   }
-  
-  //Adds the clicked tile to the layered Jpanel and removes border
-  pbox.add(lastTileClicked);
-  pbox.setBorder(null);
-  //Resets the tile's background color
-  lastTileClicked.setBackground(new Color(175,175,175));
-  //Resets the tile clicked instance
   lastTileClicked = null;
-  //Redraws or updates all the grids
-  grid.repaint();
-  LPanel.repaint();
-  RPanel.repaint();
+ }
+ else
+ {
+  lastTileClicked = tile;
+  lastTileClicked.setBackground(new Color(100, 100, 100));
  }
 }
+
+/**
+ * Moves the tile to the playbox that was clicked.
+ *
+ * @param pbox the playbox object that was clicked.
+ */public static void playboxClick(playbox pbox) 
+{
+ Container parent = lastTileClicked.getParent();
+
+ if (parent instanceof playbox) 
+ {
+  int prevRow = ((playbox) parent).getRow();
+  int prevCol = ((playbox) parent).getCol();
+
+  ((playbox) parent).setBorder(BorderFactory.createLineBorder(Color.BLACK));
+  ((playbox) parent).remove(lastTileClicked);
+
+  if (((playbox) parent).isSidePanel() == false) 
+  {
+   gridData[prevRow][prevCol] = 0;
+  }
+ }
+
+ // Adds the tile to the playbox and sets colors
+ pbox.add(lastTileClicked);
+ lastTileClicked.setBackground(new Color(175, 175, 175));
+ lastTileClicked = null;
+
+ // updates the gridData
+ int newRow = pbox.getRow();
+ int newCol = pbox.getCol();
+ if (pbox.isSidePanel() == false) 
+ {
+  gridData[newRow][newCol] = 1;
+ }
+
+ // Set borders of all grid playboxes to have full borders
+ for (int i = 0; i < 4; i++) 
+ {
+  for (int j = 0; j < 4; j++) 
+  {
+   pboxArr[i][j].updateBorders(new int[]{1, 1, 1, 1});
+  }
+ }
+    
+ // Remove borders for adjacent playboxes with tiles
+ for (int i = 0; i < 4; i++) 
+ {
+  for (int j = 0; j < 4; j++) 
+  {
+   if (gridData[i][j] == 1) 
+   {
+    pboxArr[i][j].removeBorders();
+   }
+  }
+ }
+ grid.repaint();
+ LPanel.repaint();
+ RPanel.repaint();
+}
+
+/**
+ * Resets the game to its original state.
+ */
 public void reset()
 {
+
  for (int i = 0; i < 8; i++)
  {
   ((JPanel)LPanel.getComponent(i)).add(tile[i]); 
   ((JPanel)LPanel.getComponent(i)).setBorder(null);
   ((JPanel)RPanel.getComponent(i)).add(tile[i+8]); 
   ((JPanel)RPanel.getComponent(i)).setBorder(null);
-  ((JPanel)grid.getComponent(i)).setBorder(BorderFactory.createLineBorder(Color.black));
-  ((JPanel)grid.getComponent(i+8)).setBorder(BorderFactory.createLineBorder(Color.black));
+  ((JPanel)grid.getComponent(i)).setBorder(BorderFactory.createLineBorder(Color.BLACK));
+  ((JPanel)grid.getComponent(i+8)).setBorder(BorderFactory.createLineBorder(Color.BLACK));
  }
+ if (lastTileClicked != null)
+ { 
+  lastTileClicked.setBackground(new Color(175,175,175));
+ }
+ lastTileClicked = null;
 }
+
+/**
+ * Needed so that if something other than a playbox is pressed,
+ * it un-selects the playbox.
+ *
+ * @param e the MouseEvent object.
+ */
+@Override
+public void mousePressed(MouseEvent e) 
+{
+ if (lastTileClicked != null)
+ {
+  lastTileClicked.setBackground(new Color(175,175,175));
+ }
+ lastTileClicked = null;
+}
+
+
+@Override
+public void mouseClicked(MouseEvent e) {}
+@Override
+public void mouseReleased(MouseEvent e) {}
+@Override
+public void mouseEntered(MouseEvent e) {}
+@Override
+public void mouseExited(MouseEvent e) {}
 
 };
 
