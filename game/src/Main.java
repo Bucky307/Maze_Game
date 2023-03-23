@@ -12,8 +12,8 @@ import java.awt.*;
 public class Main 
 {
  /**
- *				main creates a GameWindow object which allows the rest
- *				of the program to function.
+ *	main creates a GameWindow object which allows the rest
+ *	of the program to function.
  *	@param args standard parameter for main, allows console commands to be used.
  */
   public static void main(String[] args)
