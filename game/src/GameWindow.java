@@ -1,6 +1,6 @@
 
 /**
- * GameWindow class is the main class for the aMaze project.
+ * GameWindow class is the primary class for the aMaze project.
  * It initializes all the components that will be part of the game and
  * graphically displays them.
  *
