@@ -341,6 +341,10 @@ public void reset()
  }
  gridData = new int[4][4];
  lastTileClicked = null;
+ 
+ grid.repaint();
+ LPanel.repaint();
+ RPanel.repaint();
 }
 
 /**
