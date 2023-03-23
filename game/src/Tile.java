@@ -48,7 +48,9 @@ protected void paintComponent(Graphics g)
   super.paintComponent(g);
     
  // Draw the black lines
- g.setColor(Color.BLACK);
+ ((Graphics2D) g).setStroke(new BasicStroke(2));
+ ((Graphics2D) g).setColor(Color.BLACK);
+ 
  for (int i = 0; i < lineCoords.length; i += 4) 
  {
   int x1 = (int)lineCoords[i];
