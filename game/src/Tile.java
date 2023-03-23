@@ -1,25 +1,30 @@
 
-/*
+/**
+ * Tile class for the aMaze project.
+ * This class handles all the piece functionality.
  * @author Buck Harris
  * Date: Feb 13, 2023
  * Updated: Feb 19, 2023
- *
- * Tile class for the aMaze project
- * This will handle all the piece functionality
  */
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
+/**
+ * Tile class represents individual cells within the game grid, handling their visual appearance and interaction.
+ * It is responsible for rendering lines based on the provided coordinates, and for handling mouse events
+ * to notify the GameWindow of any user interactions with the tiles.
+ */
 public class Tile extends JPanel implements MouseListener 
 {
 
  private float[] lineCoords;
-/*
- * Constructor for the tile class.
- * For this version it only sets the color and label
- * Takes an int for the label
- */
+ /**
+  * Constructor for the Tile class.
+  * For this version, it only sets the color and label.
+  * @param num The integer used for the label.
+  * @param lineCoords The array of floats representing the line coordinates.
+  */
 public Tile(int num, float[] lineCoords) 
 {
  super(new BorderLayout());
@@ -31,7 +36,10 @@ public Tile(int num, float[] lineCoords)
  
 }
 
-//Paints the lines from the .mze on the tile
+/**
+ * Paints the lines from the .mze file on the tile.
+ * @param g The Graphics object used to draw the lines.
+ */
 @Override
 protected void paintComponent(Graphics g) 
 {
@@ -49,7 +57,10 @@ protected void paintComponent(Graphics g)
  }
 }
 
-// Passes which tile is pressed to gameWindow
+/**
+ * Passes which tile is pressed to GameWindow.
+ * @param e The MouseEvent object representing the event.
+ */
 @Override
 public void mousePressed(MouseEvent e) {
  GameWindow.tileClick(this); 
