@@ -8,7 +8,10 @@
  */
 import javax.swing.*;
 import java.awt.*;
-
+/**
+ * This is the Main class that instantiates the
+ * GameWindow and handles possible errors.
+ */
 public class Main 
 {
  /**
