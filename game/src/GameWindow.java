@@ -1,3 +1,4 @@
+
 /**
  * GameWindow class is the primary class for the aMaze project.
  * It initializes all the components that will be part of the game and
@@ -355,6 +356,7 @@ public void reset()
  }
  gridData = new int[4][4];
  lastTileClicked = null;
+ 
  grid.repaint();
  LPanel.repaint();
  RPanel.repaint();
@@ -387,3 +389,4 @@ public void mouseEntered(MouseEvent e) {}
 public void mouseExited(MouseEvent e) {}
 
 };
+

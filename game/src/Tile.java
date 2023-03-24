@@ -46,8 +46,9 @@ public Tile(int num, float[] lineCoords)
 protected void paintComponent(Graphics g) 
 {
   super.paintComponent(g);
-    
+   
  // Draw the black lines 
+
  ((Graphics2D) g).setStroke(new BasicStroke(2));
  ((Graphics2D) g).setColor(Color.BLACK);
  

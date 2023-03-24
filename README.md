@@ -10,10 +10,9 @@ This will include all documents pertaining to the design of the project and all
 source code. 
 
 ### Team Members: ###
-**Teams need to update this section. And comment out this line**  
 
-lastname, firstname: github-username  
-lastname, firstname: github-username  
-lastname, firstname: github-username  
-lastname, firstname: github-username  
-lastname, firstname: github-username  
+Townsend, Chester: ctownse9  
+Smith, Ally: AllySmith03  
+Richmond, Jason: RedExecutor66  
+Harris, Buck: Marshy8   
+Callihan, Caleb: ccallihan
