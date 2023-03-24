@@ -1,5 +1,5 @@
 /**
- * GameWindow class is the main class for the aMaze project.
+ * GameWindow class is the primary class for the aMaze project.
  * It initializes all the components that will be part of the game and
  * graphically displays them.
  *
@@ -22,16 +22,30 @@ import java.nio.ByteBuffer;
  */
 public class GameWindow extends JFrame implements ActionListener, MouseListener
 {
-//Serializes game window. If this isn't included, java complains
-public static final long serialVersionUID=1;
 
-public JButton lbutton, rbutton, mbutton; 
-private static JPanel grid, LPanel, RPanel;
-public static int[][] gridData = new int[4][4];
-public static playbox[][] pboxArr = new playbox[4][4];
+/**
+ * Holds all 16 tiles
+ */
 private static Tile[] tile;
+private JButton lbutton, rbutton, mbutton; 
+private static JPanel grid, LPanel, RPanel;
+/**
+ * Holds 0 or 1 if there is a tile in that grid
+ * space.
+ */
+public static int[][] gridData = new int[4][4];
+/**
+ * Holds each paybox in the grid
+ */
+public static playbox[][] pboxArr = new playbox[4][4];
+/**
+ * Holds the tile that was clicked last
+ */
 public static Tile lastTileClicked = null;
-
+/**
+ * Needed for the program
+ */
+public static final long serialVersionUID=1;
 /**
  * Constructor for GameWindow.
  * Takes a string to set the window name.
@@ -283,6 +297,7 @@ public JPanel addButtons()
 
  // Adds the tile to the playbox and sets colors
  pbox.add(lastTileClicked);
+ pbox.setBorder(null);
  lastTileClicked.setBackground(new Color(175, 175, 175));
  lastTileClicked = null;
 
@@ -338,7 +353,11 @@ public void reset()
  { 
   lastTileClicked.setBackground(new Color(175,175,175));
  }
+ gridData = new int[4][4];
  lastTileClicked = null;
+ grid.repaint();
+ LPanel.repaint();
+ RPanel.repaint();
 }
 
 /**
@@ -356,6 +375,7 @@ public void mousePressed(MouseEvent e)
  }
  lastTileClicked = null;
 }
+
 
 @Override
 public void mouseClicked(MouseEvent e) {}

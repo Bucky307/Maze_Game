@@ -18,7 +18,8 @@ import javax.swing.border.MatteBorder;
  */
 public class playbox extends JPanel implements MouseListener 
 {
- private int[] borders = {1, 1, 1, 1}; // top, right, bottom, left
+
+ private int[] borders = {1, 1, 1, 1}; // top, right, bottom, left (1 = on 0 = off)
  private int row;
  private int col;
  private boolean sidePanel;

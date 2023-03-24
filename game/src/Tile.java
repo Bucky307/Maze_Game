@@ -19,12 +19,14 @@ public class Tile extends JPanel implements MouseListener
 {
 
  private float[] lineCoords;
+
  /**
   * Constructor for the Tile class.
   * For this version, it only sets the color and label.
   * @param num The integer used for the label.
   * @param lineCoords The array of floats representing the line coordinates.
   */
+
 public Tile(int num, float[] lineCoords) 
 {
  super(new BorderLayout());
@@ -45,8 +47,10 @@ protected void paintComponent(Graphics g)
 {
   super.paintComponent(g);
     
- // Draw the black lines
- g.setColor(Color.BLACK);
+ // Draw the black lines 
+ ((Graphics2D) g).setStroke(new BasicStroke(2));
+ ((Graphics2D) g).setColor(Color.BLACK);
+ 
  for (int i = 0; i < lineCoords.length; i += 4) 
  {
   int x1 = (int)lineCoords[i];
@@ -57,10 +61,12 @@ protected void paintComponent(Graphics g)
  }
 }
 
+
 /**
  * Passes which tile is pressed to GameWindow.
  * @param e The MouseEvent object representing the event.
  */
+
 @Override
 public void mousePressed(MouseEvent e) {
  GameWindow.tileClick(this); 
@@ -71,6 +77,7 @@ public void mousePressed(MouseEvent e) {
  * Need to be added or there are issues
  * Do nothing for the project
  */
+
 @Override
 public void mouseClicked(MouseEvent e) {}
 

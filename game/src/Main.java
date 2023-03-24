@@ -1,25 +1,17 @@
 /**
- * @author Kim Buckner
- * Date: Jan 13, 2019
- * Updated: Jan 12, 2023
+ * The Main class serves as the entry point for the aMaze project.
+ * It initializes and displays all game components within the user interface.
  *
- *
- * A starting point for the COSC 3011 programming assignment
- * Probably need to fix a bunch of stuff, but this compiles and runs.
- *
- * This COULD be part of a package but I choose to make the starting point NOT a
- * package. However all other added elements should be sub-packages.
- *
- * Main should NEVER do much more than this in any program that is
- * user-interface intensive, such as this one. If I find that you have chosen
- * NOT to use Object-Oriented design methods, I will take huge deductions. 
- * 
- * 
+ * @author Buck Harris
+ * @version 3.0
+ * @since 2023-02-13
  */
-
 import javax.swing.*;
 import java.awt.*;
-
+/**
+ * This is the Main class that instantiates the
+ * GameWindow and handles possible errors.
+ */
 public class Main 
 {
  /**
@@ -30,13 +22,16 @@ public class Main
   public static void main(String[] args)
   {
     // This is the play area
+
     GameWindow game = new GameWindow("Group Foxtrot aMaze");
     
+
     game.setSize(new Dimension(900, 1000));
 
     game.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     game.getContentPane().setBackground(Color.PINK);
+
     game.setUp();
    
     // May or may not need this 
