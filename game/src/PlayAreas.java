@@ -77,18 +77,18 @@ public class PlayAreas extends JPanel
   {
    if (i < 8)
    {
-	int leftIndex = indices.get(i);
-	tile[i] = new Tile(leftIndex, lineCoords[leftIndex], rotations[leftIndex]);
-	((JPanel) LPanel.getComponent(i)).add(tile[i]);
+    int leftIndex = indices.get(i);
+    tile[i] = new Tile(leftIndex, lineCoords[leftIndex], rotations[leftIndex]);
+    ((JPanel) LPanel.getComponent(i)).add(tile[i]);
     ((JPanel) LPanel.getComponent(i)).setBorder(null);
 
    }
    else
    {   
-	int rightIndex = indices.get(i);
-	tile[i] = new Tile(rightIndex, lineCoords[rightIndex], rotations[rightIndex]);
-	((JPanel) RPanel.getComponent(i-8)).add(tile[i]);
-	((JPanel) RPanel.getComponent(i-8)).setBorder(null);
+    int rightIndex = indices.get(i);
+    tile[i] = new Tile(rightIndex, lineCoords[rightIndex], rotations[rightIndex]);
+    ((JPanel) RPanel.getComponent(i-8)).add(tile[i]);
+    ((JPanel) RPanel.getComponent(i-8)).setBorder(null);
    }
   } 
  }
@@ -113,8 +113,8 @@ public class PlayAreas extends JPanel
   {
    if (i < 8)
    {
-	// Left Panel
-	int leftIndex = indices.get(i);
+    // Left Panel
+    int leftIndex = indices.get(i);
     ((JPanel) LPanel.getComponent(i)).add(tile[i]);
     tile[i].rotate(tile[leftIndex].getOriginalRotation());
     ((JPanel) LPanel.getComponent(i)).setBorder(null);
@@ -122,12 +122,12 @@ public class PlayAreas extends JPanel
    }
    else
    {
-	// Right Panel
-	int rightIndex = indices.get(i);
-	((JPanel) RPanel.getComponent(i - 8)).add(tile[i]);
-	tile[i].rotate(tile[rightIndex].getOriginalRotation());
-	((JPanel) RPanel.getComponent(i - 8)).setBorder(null);
-	((JPanel) grid.getComponent(i)).setBorder(BorderFactory.createLineBorder(Color.BLACK));
+    // Right Panel
+    int rightIndex = indices.get(i);
+    ((JPanel) RPanel.getComponent(i - 8)).add(tile[i]);
+    tile[i].rotate(tile[rightIndex].getOriginalRotation());
+    ((JPanel) RPanel.getComponent(i - 8)).setBorder(null);
+    ((JPanel) grid.getComponent(i)).setBorder(BorderFactory.createLineBorder(Color.BLACK));
    }
   }
  }
