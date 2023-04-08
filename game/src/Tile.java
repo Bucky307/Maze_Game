@@ -27,7 +27,6 @@ public class Tile extends JPanel implements MouseListener
   * @param num The integer used for the label.
   * @param lineCoords The array of floats representing the line coordinates.
   */
-
 public Tile(int num, float[] lineCoords, int originalRotation) 
 {
  super(new BorderLayout());
@@ -63,7 +62,6 @@ protected void paintComponent(Graphics g)
   g.drawLine(x1, y1, x2, y2);
  }
 }
-
 
 /**
  * Gets the original rotation of this Tile object.
@@ -136,7 +134,7 @@ public void mousePressed(MouseEvent e)
  
 }
 
-/*
+/**
  * Other methods of mouseListener
  * Need to be added or there are issues
  * Do nothing for the project

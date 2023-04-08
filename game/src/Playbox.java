@@ -1,6 +1,6 @@
 /**
- * playbox class for the aMaze project.
- * This class handles all playboxes in the 
+ * Playbox class for the aMaze project.
+ * This class handles all Playboxes in the 
  * grid and the side panels
  * @author Buck Harris
  * Date: Feb 13, 2023
@@ -13,10 +13,10 @@ import java.awt.event.*;
 import javax.swing.border.MatteBorder;
 
 /**
- * playbox class represents individual boxes in the game grid.
+ * Playbox class represents individual boxes in the game grid.
  * It is responsible for handling box functionality including borders and mouse events.
  */
-public class playbox extends JPanel implements MouseListener 
+public class Playbox extends JPanel implements MouseListener 
 {
 
  private int[] borders = {1, 1, 1, 1}; // top, right, bottom, left (1 = on 0 = off)
@@ -25,10 +25,10 @@ public class playbox extends JPanel implements MouseListener
  private boolean sidePanel;
 
  /**
-  * Constructor for the playbox class that doesn't take row and column data.
+  * Constructor for the Playbox class that doesn't take row and column data.
   * This constructor is used for side panels which don't need row and column data.
   */
- public playbox() 
+ public Playbox() 
  {
   super(new BorderLayout());
   this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -38,12 +38,12 @@ public class playbox extends JPanel implements MouseListener
  }
 
  /**
-  * Constructor for the playbox class that takes row and column data.
-  * This constructor is used for grid playboxes.
-  * @param row The row index of the playbox in the grid.
-  * @param col The column index of the playbox in the grid.
+  * Constructor for the Playbox class that takes row and column data.
+  * This constructor is used for grid Playboxes.
+  * @param row The row index of the Playbox in the grid.
+  * @param col The column index of the Playbox in the grid.
   */
-public playbox(int row, int col)
+public Playbox(int row, int col)
 {
  super(new BorderLayout());
  this.row = row;
@@ -55,7 +55,7 @@ public playbox(int row, int col)
 }
 
 /**
- * Returns the row index of the playbox in the grid.
+ * Returns the row index of the Playbox in the grid.
  * @return The row index.
  */public int getRow() 
 {
@@ -91,7 +91,7 @@ public void mousePressed(MouseEvent e)
  { 
   if (!isSidePanel()) 
   {
-   GameWindow.gridData[row][col] = 1;
+   PlayAreas.gridData[row][col] = 1;
   }
   GameWindow.playboxClick(this);
  }
@@ -120,7 +120,7 @@ public void updateBorders(int[] bdrs)
 public void removeBorders() 
 {
     	
- playbox pArr[][] = GameWindow.pboxArr;
+ Playbox pArr[][] = PlayAreas.pboxArr;
  this.updateBorders(new int[]{0, 0, 0, 0});
 
  if (row > 0) 
