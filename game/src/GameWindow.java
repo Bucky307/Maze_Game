@@ -27,32 +27,13 @@ import javax.swing.Timer;
 public class GameWindow extends JFrame implements ActionListener, MouseListener
 {
 
-/**
- * Holds all 16 tiles
- */
-private static Tile[] tile;
 private JButton lbutton, rbutton, mbutton; 
-private static JPanel grid, LPanel, RPanel;
-private static  ArrayList<Integer> tileIndices;
-private static float[][] lineCoords = null;
+private static PlayAreas pArea;
+private static Randomizer rand;
 
-
-/**
- * Holds 0 or 1 if there is a tile in that grid
- * space.
- */
 public static int[][] gridData = new int[4][4];
-/**
- * Holds each playbox in the grid
- */
-public static playbox[][] pboxArr = new playbox[4][4];
-/**
- * Holds the tile that was clicked last
- */
+public static Playbox[][] pboxArr = new Playbox[4][4];
 public static Tile lastTileClicked = null;
-/**
- * Needed for the program
- */
 public static final long serialVersionUID=1;
 /**
  * Constructor for GameWindow.
@@ -91,217 +72,24 @@ public void setUp()
 {
  GridBagConstraints basic = new GridBagConstraints();
  
- fileSetup();
- gridAndPanelSetup();
- addPlayboxesToGrid(basic);
- int[] rotations = generateRandomRotations();
- addTilesToPanels(basic, rotations);
- addGridAndLRPanels(basic);
- addButtons(basic);
- reset();
- return;
-}
-
-/**
- * Sets up the file input and reads the data from the .mze file,
- * converting it into usable coordinates to paint on top of the tiles.
- */
-private void fileSetup()
-
-{
- // Below take the data from the .mze file
- // and turns it into usable coordinates 
- // that we will use to paint on top of the 
- // tiles.
- File file = new File("input/default.mze");
- FileInputStream inputStream = null;
- try 
- {
-  inputStream = new FileInputStream(file);
-
-  // read number of tiles (an integer value)
-  byte[] numTilesBytes = new byte[4];
-  inputStream.read(numTilesBytes);
-  int numTiles = ByteBuffer.wrap(numTilesBytes).getInt();
-
-  //allocate memory for lineCoords array
-  lineCoords = new float[numTiles][]; 
-
-  // iterate over each tile
-  for (int i = 0; i < numTiles; i++) 
-  {
-   // read tile number (an integer value)
-   byte[] tileNumBytes = new byte[4];
-   inputStream.read(tileNumBytes);
-   int tileNum = ByteBuffer.wrap(tileNumBytes).getInt();
-
-   // read number of lines on this tile (an integer value)
-   byte[] numLinesBytes = new byte[4];
-   inputStream.read(numLinesBytes);
-   int numLines = ByteBuffer.wrap(numLinesBytes).getInt();
-
-   lineCoords[i] = new float[numLines * 4]; // allocate memory for lineCoords on this tile
-
-   // read each line on this tile (two pairs of floats)
-   for (int j = 0; j < numLines; j++) 
-   {
-    byte[] lineBytes = new byte[16]; // each line contains 2 pairs of 4-byte floats
-    inputStream.read(lineBytes);
-    ByteBuffer.wrap(lineBytes).asFloatBuffer().get(lineCoords[i], j * 4, 4);
- 	       
-   }
-  }
- } 
- ///
- /// This catch block stops the program if the maze file is missing
- ///	or inaccessible.
- /// @throws FileNotFoundException if the expected .mze file
- /// cannot be reached
- ///
-
- catch (FileNotFoundException e) 
- {
-  JOptionPane.showMessageDialog(null, "Error opening .mze file", "Error", JOptionPane.ERROR_MESSAGE);
-  System.exit(0);
- }
- catch (IOException e) 
- {
-  e.printStackTrace();
- } 
- finally  
- {
-  if (inputStream != null) 
-  {
-   try 
-   {
-	inputStream.close();
-   }
-   catch (IOException e) 
-   {
-	e.printStackTrace();
-   }
-  }
- }	 
-}
-
-/**
- * Sets up the grid and panels, creating an array of Tile objects.
- */
-private void gridAndPanelSetup()
-{
- grid = new JPanel(new GridBagLayout());
- LPanel = new JPanel(new GridBagLayout());
- RPanel = new JPanel(new GridBagLayout());
+ //creates the 3 play areas
+ pArea = new PlayAreas();
+ JPanel grid = pArea.getGrid();
+ JPanel LPanel = pArea.getLPanel();
+ JPanel RPanel = pArea.getRPanel();
  grid.addMouseListener(this);
  LPanel.addMouseListener(this);
  RPanel.addMouseListener(this);
- tile = new Tile[16];
-}
-
-/**
- * Adds playboxes to the grid and initializes the gridData and pboxArr arrays.
- * @param basic The GridBagConstraints object for setting up the grid layout
- */
-private void addPlayboxesToGrid(GridBagConstraints basic) 
-{
- basic.ipadx = 100;
- basic.ipady = 100;
- basic.insets = new Insets(0, 0, 0, 0);
- for (int i = 0; i < 4; i++) 
- {
-  basic.gridx = i;
-  for (int j = 0; j < 4; j++) 
-  {
-   basic.gridy = j;
-   gridData[j][i] = 0;
-   pboxArr[j][i] = new playbox(j, i);
-   grid.add(pboxArr[j][i], basic);
-  }
- }
-}
-
-/**
- * Generates an array of random rotations for the tiles.
- * @return An array of 16 integers representing the rotations of the tiles
- */
-private int[] generateRandomRotations() 
-{
- int[] rotations = new int[16];
- int zeroCount = 0;
-
- // Ensure at least one tile gets each of the three rotations
- rotations[0] = 1;
- rotations[1] = 2;
- rotations[2] = 3;
-
- for (int i = 3; i < 16; i++) 
- {
-  int randomRotation = (int) (Math.random() * 4);
-
-  if (randomRotation == 0 && zeroCount < 4) 
-  {
-   rotations[i] = randomRotation;
-   zeroCount++;
-  }
-  else if (randomRotation != 0) 
-  {
-   rotations[i] = randomRotation;
-  } 
-  else i--;       
- }
-
- // Shuffle the rotations to distribute them randomly among the tiles
- Collections.shuffle(Arrays.asList(rotations));
-
- return rotations;
-}
-
-/**
- * Adds the tiles to the left and right panels.
- * @param basic The GridBagConstraints object for setting up the grid layout
- * @param rotations An array of 16 integers representing the rotations of the tiles
- */
-private void addTilesToPanels(GridBagConstraints basic, int[] rotations) 
-{
- basic.gridx = 0;
- basic.insets = new Insets(5, 5, 5, 5);
-
- // Create a list of indices and shuffle it
- tileIndices = new ArrayList<>();
- for (int i = 0; i < 16; i++) 
- {
-  tileIndices.add(i);
- }
- Collections.shuffle(tileIndices);
  
- for (int i = 0; i < 8; i++) 
- {
-  // Left Panel
-  basic.gridy = i;
-  int leftIndex = tileIndices.get(i);
-  tile[i] = new Tile(leftIndex, lineCoords[leftIndex], rotations[leftIndex]);
-  LPanel.add(new playbox(), basic);
-  ((JPanel) LPanel.getComponent(i)).add(tile[i]);
-  ((JPanel) LPanel.getComponent(i)).setBorder(null);
-
-  // Right Panel
-  int rightIndex = tileIndices.get(i + 8);
-  tile[i+8] = new Tile(rightIndex, lineCoords[rightIndex], rotations[rightIndex]);
-  RPanel.add(new playbox(), basic);
-  ((JPanel) RPanel.getComponent(i)).add(tile[i+8]);
-  ((JPanel) RPanel.getComponent(i)).setBorder(null);
- }
+ //Generates the Random arrays
+ rand = new Randomizer();
+ int[] rotations = rand.getRotation();
+ ArrayList<Integer> indices = rand.getIndice();
  
-}
-
-/**
- * Adds the grid and left and right panels to the board.
- * @param basic The GridBagConstraints object for setting up the grid layout
- */
-private void addGridAndLRPanels(GridBagConstraints basic)
-{
-
- // Adds grid to the board
+ //Adds the tiles to the L&R Panels
+ pArea.addTiles(indices, rotations);
+ 
+ // Adds the grid
  basic.ipadx = 0; basic.ipady = 0; 
  basic.gridx = 1; basic.gridy = 1;
  basic.insets = new Insets(75, 10, 10 ,10);
@@ -315,7 +103,14 @@ private void addGridAndLRPanels(GridBagConstraints basic)
  add(LPanel,basic);
  basic.gridx = 2; basic.gridy = 0;
  add(RPanel, basic);
+ 
+ // Adds the Buttons
+ addButtons(basic);
+ reset();
+ return;
 }
+
+
 
 /**
  * Function to generate the buttons.
@@ -375,21 +170,21 @@ public static void tileClick(Tile tile)
  *
  * @param pbox the playbox object that was clicked.
  */
-public static void playboxClick(playbox pbox) 
+public static void playboxClick(Playbox pbox) 
 {
  Container parent = lastTileClicked.getParent();
 
- if (parent instanceof playbox) 
+ if (parent instanceof Playbox) 
  {
-  int prevRow = ((playbox) parent).getRow();
-  int prevCol = ((playbox) parent).getCol();
+  int prevRow = ((Playbox) parent).getRow();
+  int prevCol = ((Playbox) parent).getCol();
 
-  ((playbox) parent).setBorder(BorderFactory.createLineBorder(Color.BLACK));
-  ((playbox) parent).remove(lastTileClicked);
+  ((Playbox) parent).setBorder(BorderFactory.createLineBorder(Color.BLACK));
+  ((Playbox) parent).remove(lastTileClicked);
 
-  if (((playbox) parent).isSidePanel() == false) 
+  if (((Playbox) parent).isSidePanel() == false) 
   {
-   gridData[prevRow][prevCol] = 0;
+   pArea.gridData[prevRow][prevCol] = 0;
   }
  }
 
@@ -398,21 +193,22 @@ public static void playboxClick(playbox pbox)
  pbox.setBorder(null);
  lastTileClicked.setBackground(new Color(175, 175, 175));
  lastTileClicked = null;
-
+ 
  // updates the gridData
  int newRow = pbox.getRow();
  int newCol = pbox.getCol();
  if (pbox.isSidePanel() == false) 
  {
-  gridData[newRow][newCol] = 1;
+  pArea.gridData[newRow][newCol] = 1;
  }
 
+ 
  // Set borders of all grid playboxes to have full borders
  for (int i = 0; i < 4; i++) 
  {
   for (int j = 0; j < 4; j++) 
   {
-   pboxArr[i][j].updateBorders(new int[]{1, 1, 1, 1});
+   pArea.updatePboxBorders(i, j, new int[]{1, 1, 1, 1});
   }
  }
     
@@ -421,53 +217,40 @@ public static void playboxClick(playbox pbox)
  {
   for (int j = 0; j < 4; j++) 
   {
-   if (gridData[i][j] == 1) 
+   if (pArea.gridData[i][j] == 1) 
    {
-    pboxArr[i][j].removeBorders();
+	pArea.updatePboxBorders(i, j);
    }
   }
  }
- grid.repaint();
- LPanel.repaint();
- RPanel.repaint();
+ 
+ pArea.repaintBorders();
+
 }
+
 
 /**
  * Resets the game to its original state.
  */
 public void reset() 
 {
+  int[] rotations = rand.getRotation();
+  ArrayList<Integer> indices = rand.getIndice();
+	
  //Reset Background Colors
  if (lastTileClicked != null) 
  {
   lastTileClicked.setBackground(new Color(175, 175, 175));
  }
- gridData = new int[4][4];
+ pArea.gridData = new int[4][4];
  lastTileClicked = null;
  
  // Move the tiles to the panels with their original setup   
- for (int i = 0; i < 8; i++) 
- {
-  // Left Panel
-  int leftIndex = tileIndices.get(i);
-  ((JPanel) LPanel.getComponent(i)).add(tile[i]);
-  tile[i].rotate(tile[leftIndex].getOriginalRotation());
-  ((JPanel) LPanel.getComponent(i)).setBorder(null);
-  ((JPanel) grid.getComponent(i)).setBorder(BorderFactory.createLineBorder(Color.BLACK));
-
-  // Right Panel
-  int rightIndex = tileIndices.get(i + 8);
-  ((JPanel) RPanel.getComponent(i)).add(tile[i+8]);
-  tile[i+8].rotate(tile[rightIndex].getOriginalRotation());
-  ((JPanel) RPanel.getComponent(i)).setBorder(null);
-  ((JPanel) grid.getComponent(i+8)).setBorder(BorderFactory.createLineBorder(Color.BLACK));
-
- }
+ pArea.resetTiles(indices, rotations);
+ 
     
- // Repaint the panels
- grid.repaint();
- LPanel.repaint();
- RPanel.repaint();
+ // Repaint the PlayAreas
+ pArea.repaintBorders();
 }
 
 

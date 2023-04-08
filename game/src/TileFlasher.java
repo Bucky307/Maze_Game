@@ -13,9 +13,15 @@ import javax.swing.Timer;
 import javax.swing.*;
 import java.awt.*;
 
+
+/**
+ * TileFlasher class handles the event of when the user
+ * inputs an invalid click. It will flash the tile
+ * that they performed the click with.
+ */
 public class TileFlasher 
 {
- private static final int FLASH_DELAY = 100; // milliseconds
+ private static final int FLASH_DELAY = 80; // milliseconds
  private int timerCount;
  private int flashCount = 3;
  private Tile tile;
@@ -33,7 +39,7 @@ public class TileFlasher
   timer = new Timer(FLASH_DELAY, new FlashActionListener());
   timer.start();
  }
-
+ 
  /**
   * Private inner class that implements ActionListener
   * to handle the flashing of the tile
