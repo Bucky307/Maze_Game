@@ -35,14 +35,14 @@ public class FileSetup
    // iterate over each tile
    for (int i = 0; i < numTiles; i++) 
    {
-	// read tile number (an integer value)
-	byte[] tileNumBytes = new byte[4];
-	inputStream.read(tileNumBytes);
-	int tileNum = ByteBuffer.wrap(tileNumBytes).getInt();
+    // read tile number (an integer value)
+    byte[] tileNumBytes = new byte[4];
+    inputStream.read(tileNumBytes); 
+    int tileNum = ByteBuffer.wrap(tileNumBytes).getInt();
 
     // read number of lines on this tile (an integer value
-	byte[] numLinesBytes = new byte[4];
-	inputStream.read(numLinesBytes);
+    byte[] numLinesBytes = new byte[4];
+    inputStream.read(numLinesBytes);
     int numLines = ByteBuffer.wrap(numLinesBytes).getInt();
 
     lineCoords[i] = new float[numLines * 4]; // allocate memory for lineCoords on this tile
