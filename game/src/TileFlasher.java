@@ -19,57 +19,35 @@ import java.awt.*;
  * inputs an invalid click. It will flash the tile
  * that they performed the click with.
  */
-public class TileFlasher 
-{
- private static final int FLASH_DELAY = 80; // milliseconds
- private int timerCount;
- private int flashCount = 3;
- private Tile tile;
- private Timer timer;
+public class TileFlasher implements ActionListener {
+    private static final int FLASH_DELAY = 80; // milliseconds
+    private int timerCount;
+    private int flashCount = 3;
+    private Tile tile;
+    private Timer timer;
 
- /**
-  * Constructor for TileFlasher
-  * @param tile The tile to flash
-  */
- public TileFlasher(Tile tile)
- {
-  this.tile = tile;
-  this.timerCount = 0;
-        
-  timer = new Timer(FLASH_DELAY, new FlashActionListener());
-  timer.start();
- }
- 
- /**
-  * Private inner class that implements ActionListener
-  * to handle the flashing of the tile
-  */
- private class FlashActionListener implements ActionListener
- {
-  /**
-  * actionPerformed method handles the flashing of the tile
-  * @param e ActionEvent
-  */
-  @Override
-  public void actionPerformed(ActionEvent e)
-  {
-   timerCount++;
+    public TileFlasher(Tile tile) {
+        this.tile = tile;
+        this.timerCount = 0;
 
-   if (timerCount % 2 == 0)
-   {
-	tile.setBackground(new Color(175, 175, 175));
-   } 
-   else 
-   {
-	tile.setBackground(new Color(100, 100, 100));
-   }
+        timer = new Timer(FLASH_DELAY, this);
+        timer.start();
+    }
 
-   if (timerCount >= flashCount * 2) 
-   {
-    timer.stop();
-   }
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        timerCount++;
 
-   tile.repaint();
-  }
- }
+        if (timerCount % 2 == 0) {
+            tile.setBackground(new Color(175, 175, 175));
+        } else {
+            tile.setBackground(new Color(100, 100, 100));
+        }
+
+        if (timerCount >= flashCount * 2) {
+            timer.stop();
+        }
+
+        tile.repaint();
+    }
 }

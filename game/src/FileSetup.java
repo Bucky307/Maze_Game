@@ -1,3 +1,12 @@
+/**
+ * FileSetup class for the aMaze project.
+ * This class handles reading from the 
+ * .mze file for the tile lines
+ * @author Buck Harris
+ * Date: Mar 30, 2023
+ * Updated: Apr 02, 2023
+ */
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -5,12 +14,23 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import javax.swing.JOptionPane;
 
+/**
+ * This class handles file setup and reads the maze configuration
+ * from a given file. It also provides a method to get the line
+ * coordinates for the maze.
+ */
 public class FileSetup 
 {
 
  private String filename;
  private float[][] lineCoords;
-	
+ 
+ /**
+  * Constructor for the FileSetup class.
+  * Reads the given file and extracts the line coordinates.
+  *
+  * @param filename The name of the file containing the maze configuration.
+  */
  public FileSetup(String filename)
  {
   this.filename = filename;
@@ -87,7 +107,11 @@ public class FileSetup
    }
   }	 
  }
-	
+ /**
+  * Returns the 2D array of line coordinates.
+  *
+  * @return The 2D array of line coordinates.
+  */	
  public float[][] getLineCoords()
  {
   return lineCoords;
