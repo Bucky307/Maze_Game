@@ -26,7 +26,7 @@ import javax.swing.Timer;
  */
 public class GameWindow extends JFrame implements ActionListener, MouseListener
 {
-
+ 
 private JButton lbutton, rbutton, mbutton; 
 private static PlayAreas pArea;
 private static Randomizer rand;

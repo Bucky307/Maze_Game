@@ -1,3 +1,12 @@
+/**
+ * PlayArea class for the aMaze project.
+ * This class handles all panels on the 
+ * main frame
+ * @author Buck Harris
+ * Date: Mar 30, 2023
+ * Updated: Apr 02, 2023
+ */
+ 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -6,7 +15,11 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-
+/**
+ * This class represents the main game area, which includes the main grid,
+ * and the left and right panels containing tiles that can be placed on the grid.
+ * It also handles the updating and resetting of tiles and their borders.
+ */
 public class PlayAreas extends JPanel
 {
  private JPanel grid;
@@ -16,7 +29,9 @@ public class PlayAreas extends JPanel
  public static Playbox[][] pboxArr;
  public static int[][] gridData;
     
-    
+ /**
+  * Constructor for PlayAreas.
+  */  
  public PlayAreas()
  {
   GridBagConstraints basic = new GridBagConstraints();
@@ -29,7 +44,11 @@ public class PlayAreas extends JPanel
   createGrid(basic);
   createLRPanels(basic);
  }
-    
+ /**
+  * Creates the main grid of the game.
+  *
+  * @param basic The GridBagConstraints object to set the layout of the grid.
+  */ 
  private void createGrid(GridBagConstraints basic)
  {
   basic.ipadx = 100;
@@ -47,7 +66,11 @@ public class PlayAreas extends JPanel
    }
   }
  }
-    
+ /**
+  * Creates the left and right panels containing tiles.
+  *
+  * @param basic The GridBagConstraints object to set the layout of the panels.
+  */  
  private void createLRPanels(GridBagConstraints basic)
  {
   basic.gridx = 0;
@@ -66,7 +89,12 @@ public class PlayAreas extends JPanel
    }
   }    
  }
- 
+ /**
+  * Adds tiles to the left and right panels.
+  *
+  * @param indices   The list of indices for the tiles.
+  * @param rotations The array of rotations for the tiles.
+  */
  public void addTiles(ArrayList<Integer> indices, int[] rotations)
  {
   FileSetup file = new FileSetup("input/default.mze");
@@ -92,21 +120,42 @@ public class PlayAreas extends JPanel
    }
   } 
  }
- 
+ /**
+  * Updates the borders of the Playbox at the specified grid position.
+  *
+  * @param i   The row index of the Playbox.
+  * @param j   The column index of the Playbox.
+  * @param val The array of border values to set.
+  */
  public void updatePboxBorders(int i, int j, int[] val)
  {
   pboxArr[i][j].updateBorders(val);
  }
+ /**
+  * Removes borders of the Playbox at the specified grid position.
+  *
+  * @param i The row index of the Playbox.
+  * @param j The column index of the Playbox.
+  */
  public void updatePboxBorders(int i, int j)
  {
   pboxArr[i][j].removeBorders();
  }
+ /**
+  * Repaints the grid and left and right panels.
+  */
  public void repaintBorders()
  {
   grid.repaint();
   LPanel.repaint();
   RPanel.repaint();
  }
+ /**
+  * Resets tiles to their original state.
+  *
+  * @param indices   The list of indices for the tiles.
+  * @param rotations The array of rotations for the tiles.
+  */
  public void resetTiles(ArrayList<Integer> indices, int[] rotations)
  {
   for (int i = 0; i < 16; i++) 
@@ -131,19 +180,38 @@ public class PlayAreas extends JPanel
    }
   }
  }
- 
+ /**
+  * Returns the array of Tile objects.
+  *
+  * @return The array of Tile objects.
+  */
  public Tile[] getTile()
  {
   return tile;
  }
+ /**
+  * Returns the JPanel object for the grid.
+  *
+  * @return The JPanel object for the grid.
+  */
  public JPanel getGrid()
  {
   return grid;
  }  
+ /**
+  * Returns the JPanel object for the left panel.
+  *
+  * @return The JPanel object for the left panel.
+  */
  public JPanel getLPanel()
  {
   return LPanel;
  } 
+ /**
+  * Returns the JPanel object for the right panel.
+  *
+  * @return The JPanel object for the right panel.
+  */
  public JPanel getRPanel()
  {
   return RPanel;
