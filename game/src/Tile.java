@@ -1,4 +1,3 @@
-
 /**
  * Tile class for the aMaze project.
  * This class handles all the piece functionality.
@@ -9,7 +8,11 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-
+import java.io.*;
+import java.util.Scanner;
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.Arrays;
 /**
  * Tile class represents individual cells within the game grid, handling their visual appearance and interaction.
  * It is responsible for rendering lines based on the provided coordinates, and for handling mouse events
@@ -17,9 +20,13 @@ import java.awt.event.*;
  */
 public class Tile extends JPanel implements MouseListener 
 {
-
  private float[] lineCoords;
- private int rotation = 0, originalRotation;
+ private float[] lineCoordsOg;
+ private int tilePositionOg;
+ private int tileRotationOg;
+ private int tilePosition;
+ private int tileRotation = 0;
+ private int tileNum;
 
  /**
   * Constructor for the Tile class.
@@ -27,16 +34,19 @@ public class Tile extends JPanel implements MouseListener
   * @param num The integer used for the label.
   * @param lineCoords The array of floats representing the line coordinates.
   */
-public Tile(int num, float[] lineCoords, int originalRotation) 
+public Tile(int tileNum, float[] lineCoordsOg, int tileRotationOg, int tilePositionOg)
 {
  super(new BorderLayout());
- this.lineCoords = lineCoords;
- this.originalRotation = originalRotation;
- super.setName(String.valueOf(num));
+ this.tileNum = tileNum;
+ this.lineCoordsOg = lineCoordsOg;
+ lineCoords = lineCoordsOg;
+ this.tileRotationOg = tileRotationOg;
+ this.tilePositionOg = tilePositionOg;
+ lineCoords = Arrays.copyOf(lineCoordsOg, lineCoordsOg.length);
  super.addMouseListener(this);
  super.setBackground(new Color(175,175,175));
  super.setPreferredSize(new Dimension(0, 0));
- rotate(originalRotation);
+ rotate(tileRotationOg);
 }
 
 /**
@@ -63,13 +73,37 @@ protected void paintComponent(Graphics g)
  }
 }
 
+public int getRotation()
+{
+ return tileRotation;
+}
+
+public int getPosition()
+{
+ return tilePosition;
+}
+public float[] getlineCoordsOg()
+{
+ return lineCoordsOg;
+}
+public int getTileNum()
+{
+ return tileNum;
+}
+
+
 /**
  * Gets the original rotation of this Tile object.
  * @return An integer value representing the original rotation
  */
 public int getOriginalRotation()
 {
- return originalRotation;
+ return tileRotationOg;
+}
+
+public int getOriginalPosition()
+{
+	return tilePositionOg;
 }
 
 /**
@@ -102,18 +136,23 @@ public void rotate()
  repaint();
  
  //Increment the rotation value
- rotation ++;
- rotation %= 4;
+ tileRotation ++;
+ tileRotation %= 4;
 }
 
 /**
  * Rotates the tile to its original rotation.
  * @param originalRotation The integer value of the original rotation
  */
-public void rotate(int originalRotation)
+public void rotate(int tileRotationOg)
 {
- while(rotation != originalRotation)
+ while(tileRotation != tileRotationOg)
   rotate();
+}
+
+public void updatePosition(Playbox pbox)
+{
+  tilePosition = pbox.getPosition();
 }
 
 /**
@@ -128,10 +167,12 @@ public void mousePressed(MouseEvent e)
   if(GameWindow.lastTileClicked != null)
    GameWindow.lastTileClicked.setBackground(new Color(175, 175, 175));
   GameWindow.lastTileClicked = null;
+  GameWindow.updatePlayed();
   this.rotate();
  }
  else GameWindow.tileClick(this);
- 
+ System.out.println("Tile: " + tileNum + " Position: " + tilePosition + " Rotation: " + tileRotation);
+
 }
 
 /**

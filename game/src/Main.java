@@ -32,7 +32,7 @@ public class Main
 
     game.getContentPane().setBackground(Color.PINK);
 
-    game.setUp();
+    game.setUp("default.mze");
    
     // May or may not need this 
     game.setVisible(true);

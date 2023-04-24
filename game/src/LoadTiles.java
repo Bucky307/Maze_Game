@@ -1,0 +1,214 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.io.*;
+import java.util.Scanner;
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.Arrays;
+
+public class LoadTiles 
+{
+ private Tile[] tile;
+ private JPanel grid, LPanel, RPanel;
+ private String fileName;
+ private Randomizer rand;
+ private FileSetup file;
+ private boolean unplayed;
+ private GameWindow gWindow;
+ private boolean isValid;
+ 
+
+ 
+ public LoadTiles(JPanel grid, JPanel LPanel, JPanel RPanel, String fileName, GameWindow gWindow)
+ {
+  this.grid = grid;
+  this.LPanel = LPanel;
+  this.RPanel = RPanel;
+  this.fileName = fileName;
+  this.gWindow = gWindow;
+  
+  file = new FileSetup(fileName, gWindow);
+  unplayed = file.isUnplayed();
+  isValid = file.isValid();
+  tile = new Tile[16];
+  
+  if(isValid == false)
+   return;
+  
+  if (unplayed)
+   addTilesDefault();
+  else
+   addTiles();
+ }
+ 
+ public boolean getisValid()
+ {
+  return isValid;
+ }
+ 
+ public void setUnplayed()
+ {
+  unplayed = false;
+ }
+ public boolean isUnplayed()
+ {
+  return unplayed;
+ }
+ public int[] getTilePositions()
+ {
+  int[] x = new int[16];
+  for (int i = 0; i < 16; i++)
+  {
+	x[i] = tile[i].getPosition();
+  }
+  return x;
+ }
+ public int[] getTileRotations()
+ {
+  int[] x = new int[16];
+  for (int i = 0; i < 16; i++)
+  {
+   x[i] = tile[i].getRotation();
+  }
+  return x;
+ }
+ public float[][] getLineCoordsOg()
+ {
+  float[][] x = new float[16][16];
+  for (int i = 0; i < 16; i++)
+  {
+   x[i] = tile[i].getlineCoordsOg();
+  }
+  return x;
+ }
+ public int[] getTileNum()
+ {
+  int[] x = new int[16];
+  for (int i = 0; i < 16; i++)
+  {
+   x[i] = tile[i].getTileNum();
+  }
+  return x;
+ }
+ 
+ 
+ /**
+  * Adds tiles to the left and right panels for
+  * unplayed files.
+  *
+  * @param indices   The list of indices for the tiles.
+  * @param rotations The array of rotations for the tiles.
+  */
+ public void addTilesDefault()
+ {
+  rand = new Randomizer();
+  System.out.println("DEFAULT");
+  float[][] lineCoords = file.getLineCoords();
+  int[] rotations = rand.getRotation();
+  ArrayList<Integer> indices = rand.getIndice();
+  
+  
+  for (int i = 0; i < 16; i++) 
+  {
+   if (i < 8)
+   {
+	int leftIndex = indices.get(i);
+	tile[i] = new Tile(leftIndex, lineCoords[leftIndex], rotations[leftIndex], i);
+	((Playbox) LPanel.getComponent(i)).addTile(tile[i]);
+    ((JPanel) LPanel.getComponent(i)).setBorder(null);  
+   }
+   else
+   {   
+	int rightIndex = indices.get(i);
+	tile[i] = new Tile(rightIndex, lineCoords[rightIndex], rotations[rightIndex], i);
+	((Playbox) RPanel.getComponent(i-8)).addTile(tile[i]);
+	((JPanel) RPanel.getComponent(i-8)).setBorder(null);
+   }
+  } 
+ }
+ /**
+  * Resets tiles to their original state.
+  *
+  * @param indices   The list of indices for the tiles.
+  * @param rotations The array of rotations for the tiles.
+  */
+ public void resetTiles()
+ {
+
+  for (int i = 0; i < 16; i++)
+  {
+      int originalPosition = tile[i].getOriginalPosition();
+
+      if (originalPosition < 8)
+      {
+          ((JPanel) LPanel.getComponent(originalPosition)).removeAll();
+          ((JPanel) LPanel.getComponent(originalPosition)).add(tile[i]);
+          tile[i].rotate(tile[i].getOriginalRotation());
+          tile[i].updatePosition((Playbox)LPanel.getComponent(originalPosition));
+          ((JPanel) LPanel.getComponent(originalPosition)).setBorder(null);
+      }
+      else if (originalPosition < 16)
+      {
+          ((JPanel) RPanel.getComponent(originalPosition - 8)).removeAll();
+          ((JPanel) RPanel.getComponent(originalPosition - 8)).add(tile[i]);
+          tile[i].rotate(tile[i].getOriginalRotation());
+          tile[i].updatePosition((Playbox)RPanel.getComponent(originalPosition - 8));
+          ((JPanel) RPanel.getComponent(originalPosition - 8)).setBorder(null);
+      }
+      else
+      {
+    	  int col = (originalPosition - 16) % 4;
+          int row = (originalPosition - 16) / 4;
+
+          int gridIndex = col * 4 + row;
+
+          ((JPanel) grid.getComponent(gridIndex)).removeAll();
+          ((JPanel) grid.getComponent(gridIndex)).add(tile[i]);
+          tile[i].rotate(tile[i].getOriginalRotation());
+          tile[i].updatePosition((Playbox)grid.getComponent(gridIndex));
+          gWindow.setGrid(row, col);
+      }
+  }
+
+  GameWindow.fixBorders();
+ }
+ 
+ public void addTiles()
+ {
+  System.out.println("SAVEDLOAD");
+  int[] pos = file.getTilePositionsOg();
+  int[] rot = file.getTileRotationsOg();
+  float[][] lc = file.getLineCoords();
+  tile = new Tile[16];
+  for (int i = 0; i <16; i++)
+  {
+	  System.out.println("Tile: " + i + " Pos: "+ pos[i] + " Rotation: " + rot[i]);  
+   if (pos[i] < 8)
+   {
+	tile[i] = new Tile(i, lc[i], rot[i], pos[i]);
+	((JPanel) LPanel.getComponent(pos[i])).add(tile[i]);  
+    tile[i].updatePosition((Playbox)LPanel.getComponent(pos[i]));
+   }
+   else if (pos[i] < 16)
+   {
+	tile[i] = new Tile(i, lc[i], rot[i], pos[i]);
+	((JPanel) RPanel.getComponent(pos[i]-8)).add(tile[i]);
+    tile[i].updatePosition((Playbox)RPanel.getComponent(pos[i]-8));
+   }
+   else if (pos[i] < 32)
+   {
+	int col = (pos[i] - 16) % 4;
+    int row = (pos[i] - 16) / 4;
+
+    int gridIndex = col * 4 + row;
+
+    tile[i] = new Tile(i, lc[i], rot[i], pos[i]);
+    ((JPanel) grid.getComponent(gridIndex)).add(tile[i]);
+    tile[i].updatePosition((Playbox)grid.getComponent(gridIndex));
+    gWindow.setGrid(row, col);
+   
+   }
+  }	 
+ }
+}
