@@ -73,6 +73,7 @@ public class FileSetup
 	 inputStream.read(tileNumBytes);
 	 int tileNum = ByteBuffer.wrap(tileNumBytes).getInt();
 
+
 	 byte[] tileRotBytes = new byte[4];
 	 inputStream.read(tileRotBytes);
  	 int tileRot = ByteBuffer.wrap(tileRotBytes).getInt();
