@@ -12,6 +12,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.ByteBuffer;
+
+import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 
 /**
@@ -21,100 +23,133 @@ import javax.swing.JOptionPane;
  */
 public class FileSetup 
 {
-
  private String filename;
  private float[][] lineCoords;
- 
- /**
-  * Constructor for the FileSetup class.
-  * Reads the given file and extracts the line coordinates.
-  *
-  * @param filename The name of the file containing the maze configuration.
-  */
- public FileSetup(String filename)
+ private boolean unplayed;
+ private int[] tilePositionsOg;
+ private int[] tileRotationsOg;
+ private GameWindow gWindow;
+ private boolean fileValid = false;
+
+ public FileSetup(String filename, GameWindow gWindow)
  {
+  this.gWindow = gWindow;
   this.filename = filename;
-  // Below take the data from the .mze file
-  // and turns it into usable coordinates 
-  // that we will use to paint on top of the 
-  // tiles.
-  File file = new File(filename);
+  File file = new File("input/", filename); 
   FileInputStream inputStream = null;
+  
   try 
   {
    inputStream = new FileInputStream(file);
-
-   // read number of tiles (an integer value)
-   byte[] numTilesBytes = new byte[4];
-   inputStream.read(numTilesBytes);
-   int numTiles = ByteBuffer.wrap(numTilesBytes).getInt();
    
-   //allocate memory for lineCoords array
-   lineCoords = new float[numTiles][]; 
-
-   // iterate over each tile
-   for (int i = 0; i < numTiles; i++) 
+   byte[] headerBytes = new byte[4];
+   inputStream.read(headerBytes);
+   if (ByteBuffer.wrap(headerBytes).getInt() == 0xcafebeef)
+	{unplayed = true; fileValid = true;}
+   else if (ByteBuffer.wrap(headerBytes).getInt() == 0xcafedeed)
+    {unplayed = false; fileValid = true;}
+   else
+   {   
+	fileValid = false;
+	JOptionPane.showMessageDialog(null, "Error opening .mze file", "Error", JOptionPane.ERROR_MESSAGE);
+	//LoadAndSave loadAndSave = new LoadAndSave(gWindow);
+    //loadAndSave.showLoadDialog();
+   }
+   
+   System.out.println(fileValid);
+   if(fileValid)
    {
-    // read tile number (an integer value)
-    byte[] tileNumBytes = new byte[4];
-    inputStream.read(tileNumBytes); 
-    int tileNum = ByteBuffer.wrap(tileNumBytes).getInt();
+    byte[] numTilesBytes = new byte[4];
+    inputStream.read(numTilesBytes);
+    int numTiles = ByteBuffer.wrap(numTilesBytes).getInt();
+    
+    tilePositionsOg = new int[numTiles];
+    tileRotationsOg = new int[numTiles];
+    lineCoords = new float[numTiles][];  
 
-    // read number of lines on this tile (an integer value
-    byte[] numLinesBytes = new byte[4];
-    inputStream.read(numLinesBytes);
-    int numLines = ByteBuffer.wrap(numLinesBytes).getInt();
-
-    lineCoords[i] = new float[numLines * 4]; // allocate memory for lineCoords on this tile
-
-    // read each line on this tile (two pairs of floats)
-    for (int j = 0; j < numLines; j++) 
+    for (int i = 0; i < numTiles; i++)
     {
-     byte[] lineBytes = new byte[16]; // each line contains 2 pairs of 4-byte floats
-     inputStream.read(lineBytes);
-     ByteBuffer.wrap(lineBytes).asFloatBuffer().get(lineCoords[i], j * 4, 4); 	       
+     byte[] tileNumBytes = new byte[4];
+	 inputStream.read(tileNumBytes);
+	 int tileNum = ByteBuffer.wrap(tileNumBytes).getInt();
+
+
+	 byte[] tileRotBytes = new byte[4];
+	 inputStream.read(tileRotBytes);
+ 	 int tileRot = ByteBuffer.wrap(tileRotBytes).getInt();
+
+	 tilePositionsOg[i] = tileNum;
+	 tileRotationsOg[i] = tileRot;
+	
+	 byte[] numLinesBytes = new byte[4];
+	 inputStream.read(numLinesBytes);
+	 int numLines = ByteBuffer.wrap(numLinesBytes).getInt();
+
+	 lineCoords[i] = new float[numLines * 4];
+
+	 for (int j = 0; j < numLines; j++)
+	 {
+	  byte[] lineBytes = new byte[16];
+	  inputStream.read(lineBytes);
+	  ByteBuffer.wrap(lineBytes).asFloatBuffer().get(lineCoords[i], j * 4, 4);
+	 
+	 }
+	
+	 if (!unplayed)
+	  System.out.printf("Num: %d, Pos: %d, Rot: %d%n",
+             i, tilePositionsOg[i], tileRotationsOg[i]);
     }
    }
-  } 
-  ///
-  /// This catch block stops the program if the maze file is missing
-  ///	or inaccessible.
-  /// @throws FileNotFoundException if the expected .mze file
-  /// cannot be reached
-  ///
-
-  catch (FileNotFoundException e) 
+  }
+  catch (FileNotFoundException e)
   {
    JOptionPane.showMessageDialog(null, "Error opening .mze file", "Error", JOptionPane.ERROR_MESSAGE);
    System.exit(0);
   }
-  catch (IOException e) 
+  catch (IOException e)
   {
    e.printStackTrace();
   } 
-  finally  
+  finally
   {
-   if (inputStream != null) 
-   {
-    try 
+   if (inputStream != null)
+   {   
+	try
 	{
-     inputStream.close();
-	}
-	catch (IOException e) 
+	 inputStream.close();
+	} 
+	catch (IOException e)
 	{
      e.printStackTrace();
-	}
+    }
    }
-  }	 
+  }
  }
- /**
-  * Returns the 2D array of line coordinates.
-  *
-  * @return The 2D array of line coordinates.
-  */	
- public float[][] getLineCoords()
+ 
+ public boolean isValid()
+ {
+  return fileValid;
+ }
+ 
+ 
+ public float[][] getLineCoords() 
  {
   return lineCoords;
+ }
+
+ public boolean isUnplayed() 
+ {
+  return unplayed;
+ }
+
+ public int[] getTilePositionsOg()
+ {
+  return tilePositionsOg;
+ }
+
+ public int[] getTileRotationsOg()
+ {
+  return tileRotationsOg;
  }
 	
 }

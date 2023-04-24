@@ -22,15 +22,19 @@ public class Playbox extends JPanel implements MouseListener
  private int[] borders = {1, 1, 1, 1}; // top, right, bottom, left (1 = on 0 = off)
  private int row;
  private int col;
+ private int position;
  private boolean sidePanel;
+ private Tile tile = null;
 
  /**
   * Constructor for the Playbox class that doesn't take row and column data.
   * This constructor is used for side panels which don't need row and column data.
   */
- public Playbox() 
+ public Playbox(int position) 
  {
   super(new BorderLayout());
+  super.setBackground(new Color(255, 255, 255));
+  this.position = position;
   this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
   super.setPreferredSize(new Dimension(0, 0));
   super.addMouseListener(this);
@@ -43,11 +47,13 @@ public class Playbox extends JPanel implements MouseListener
   * @param row The row index of the Playbox in the grid.
   * @param col The column index of the Playbox in the grid.
   */
-public Playbox(int row, int col)
+public Playbox(int row, int col, int position)
 {
  super(new BorderLayout());
+ super.setBackground(new Color(255, 255, 255));
  this.row = row;
  this.col = col;
+ this.position = position;
  this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
  super.setPreferredSize(new Dimension(0, 0));
  super.addMouseListener(this);
@@ -70,6 +76,30 @@ public int getCol()
 {
  return col;
 }
+
+
+public int getPosition()
+{
+ return position;
+}
+
+public void addTile(Tile tile)
+{
+ add(tile);
+ this.tile = tile;
+}
+public void rmTile(Tile tile)
+{
+ remove(tile);
+ tile = null;
+}
+public boolean isEmpty()
+{
+ if(tile == null)
+  return true;
+ return false;
+}
+
 
 /**
  * Returns whether the playbox is a side panel playbox.
@@ -140,6 +170,7 @@ public void removeBorders()
   pArr[row][col + 1].updateBorders(new int[]{-1, -1, -1, 0}); 
  }
 }
+
   
 // Other methods of MouseListener
 @Override

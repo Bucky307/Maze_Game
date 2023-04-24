@@ -1,4 +1,3 @@
-
 /**
 * GameWindow class is the primary class for the aMaze project.
  * It initializes all the components that will be part of the game and
@@ -24,12 +23,11 @@ import javax.swing.Timer;
  * It is responsible for coordinating the interaction between playboxes and tiles, 
  * as well as managing the overall game state and user input through mouse events.
  */
-public class GameWindow extends JFrame implements ActionListener, MouseListener
+public class GameWindow extends JFrame implements MouseListener
 {
  
-private JButton lbutton, rbutton, mbutton; 
 private static PlayAreas pArea;
-private static Randomizer rand;
+public static LoadTiles loadTiles;
 
 public static int[][] gridData = new int[4][4];
 public static Playbox[][] pboxArr = new Playbox[4][4];
@@ -50,25 +48,11 @@ public GameWindow(String s)
 }
 
 /**
- * This method uses actionListener to call button functions.
- *
- * @param e the class which is used to return a result of a button action.
- */
-public void actionPerformed(ActionEvent e) 
-{
- if("Quit".equals(e.getActionCommand()))  
-  System.exit(0);
- if("Reset".equals(e.getActionCommand()))  
-  reset();
- if("New".equals(e.getActionCommand()))
-  ;
-}
-/**
  * This method sets up the game board.
  * It takes the data from the .mze file and turns it into usable coordinates
  * that are used to paint on top of the tile objects.
  */
-public void setUp()
+public void setUp(String fileName)
 {
  GridBagConstraints basic = new GridBagConstraints();
  
@@ -82,12 +66,10 @@ public void setUp()
  RPanel.addMouseListener(this);
  
  //Generates the Random arrays
- rand = new Randomizer();
- int[] rotations = rand.getRotation();
- ArrayList<Integer> indices = rand.getIndice();
  
- //Adds the tiles to the L&R Panels
- pArea.addTiles(indices, rotations);
+ //Adds the tiles for default.mze
+ loadTiles = new LoadTiles(grid, LPanel, RPanel, fileName, this);
+ //pArea.addTiles(indices, rotations);
  
  // Adds the grid
  basic.ipadx = 0; basic.ipady = 0; 
@@ -105,43 +87,10 @@ public void setUp()
  add(RPanel, basic);
  
  // Adds the Buttons
- addButtons(basic);
+ Buttons buttons = new Buttons(basic, this);
+ add(buttons.getButtonPanel(), basic);
  reset();
  return;
-}
-
-
-
-/**
- * Function to generate the buttons.
- *
- * @return JPanel containing the buttons.
- */
-private void addButtons(GridBagConstraints basic)
-{
- JPanel ButtonPanel = new JPanel();
- JButton[] buttons = {lbutton, mbutton, rbutton};
- String[] action = {"New Game", "Reset", "Quit"};
-
- /* Goes through array of button names to name each,
-  * gives each a command, and gives it an actionListener
-  */
- for (int i = 0; i < 3; i++)
- {
-  buttons[i] = new JButton(action[i]);
-  buttons[i].setBorder(BorderFactory.createLineBorder(Color.BLACK));
-  buttons[i].setPreferredSize(new Dimension(100, 100));
-  buttons[i].setFont(new Font("Arial", Font.PLAIN, 18));
-  ButtonPanel.add(buttons[i]);
-  buttons[i].addActionListener(this);
-  buttons[i].setActionCommand(action[i]);
- }
- //Creates space for buttons and adds them
- basic.gridx=1; basic.gridy=0;
- basic.ipadx = 0; basic.ipady = 0;
- basic.gridwidth = 1; basic.gridheight = 1;
- basic.insets = new Insets(10,10,10,10);
- add(ButtonPanel, basic);
 }
 
 /**
@@ -173,23 +122,22 @@ public static void tileClick(Tile tile)
 public static void playboxClick(Playbox pbox) 
 {
  Container parent = lastTileClicked.getParent();
+ loadTiles.setUnplayed();
+ 
+ int prevRow = ((Playbox) parent).getRow();
+ int prevCol = ((Playbox) parent).getCol();
 
- if (parent instanceof Playbox) 
+ ((Playbox) parent).setBorder(BorderFactory.createLineBorder(Color.BLACK));
+ ((Playbox) parent).rmTile(lastTileClicked);
+
+ if (((Playbox) parent).isSidePanel() == false) 
  {
-  int prevRow = ((Playbox) parent).getRow();
-  int prevCol = ((Playbox) parent).getCol();
-
-  ((Playbox) parent).setBorder(BorderFactory.createLineBorder(Color.BLACK));
-  ((Playbox) parent).remove(lastTileClicked);
-
-  if (((Playbox) parent).isSidePanel() == false) 
-  {
-   pArea.gridData[prevRow][prevCol] = 0;
-  }
+  pArea.gridData[prevRow][prevCol] = 0;
  }
-
+ 
  // Adds the tile to the playbox and sets colors
- pbox.add(lastTileClicked);
+ pbox.addTile(lastTileClicked);
+ lastTileClicked.updatePosition(pbox);
  pbox.setBorder(null);
  lastTileClicked.setBackground(new Color(175, 175, 175));
  lastTileClicked = null;
@@ -202,7 +150,12 @@ public static void playboxClick(Playbox pbox)
   pArea.gridData[newRow][newCol] = 1;
  }
 
- 
+ fixBorders();
+
+}
+
+public static void fixBorders()
+{
  // Set borders of all grid playboxes to have full borders
  for (int i = 0; i < 4; i++) 
  {
@@ -211,7 +164,7 @@ public static void playboxClick(Playbox pbox)
    pArea.updatePboxBorders(i, j, new int[]{1, 1, 1, 1});
   }
  }
-    
+     
  // Remove borders for adjacent playboxes with tiles
  for (int i = 0; i < 4; i++) 
  {
@@ -219,24 +172,20 @@ public static void playboxClick(Playbox pbox)
   {
    if (pArea.gridData[i][j] == 1) 
    {
-	pArea.updatePboxBorders(i, j);
+    pArea.updatePboxBorders(i, j);
    }
   }
  }
  
- pArea.repaintBorders();
-
+ pArea.repaintBorders();	
+ 
 }
-
 
 /**
  * Resets the game to its original state.
  */
-public void reset() 
+public static void reset() 
 {
-  int[] rotations = rand.getRotation();
-  ArrayList<Integer> indices = rand.getIndice();
-	
  //Reset Background Colors
  if (lastTileClicked != null) 
  {
@@ -246,13 +195,44 @@ public void reset()
  lastTileClicked = null;
  
  // Move the tiles to the panels with their original setup   
- pArea.resetTiles(indices, rotations);
- 
-    
+ loadTiles.resetTiles();
+ fixBorders();
  // Repaint the PlayAreas
  pArea.repaintBorders();
 }
 
+
+public static boolean unplayed;
+public static int[] tilePositions;
+public static int[] tileRotations;
+public static float[][] lineCoords;
+public static int[] tileNum;
+
+public void getSaveData()
+{
+ unplayed = loadTiles.isUnplayed();
+ tilePositions = loadTiles.getTilePositions();
+ tileRotations = loadTiles.getTileRotations();
+ lineCoords = loadTiles.getLineCoordsOg();
+ tileNum = loadTiles.getTileNum();
+}
+
+public void setGrid(int row, int col)
+{
+ pArea.gridData[row][col] = 1; 
+}
+
+public void loadGame(String fileName) 
+{
+ getContentPane().removeAll(); 
+ setUp(fileName); 
+ revalidate(); 
+ repaint();
+}
+
+public static void updatePlayed() {
+	loadTiles.setUnplayed();
+}
 
 /**
  * Needed so that if something other than a playbox is pressed,
