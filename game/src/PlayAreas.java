@@ -96,7 +96,7 @@ public class PlayAreas extends JPanel
    }
   }    
  }
- 
+
  /**
   * Updates the borders of the Playbox at the specified grid position.
   *
