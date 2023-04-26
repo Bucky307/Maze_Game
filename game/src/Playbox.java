@@ -77,22 +77,36 @@ public int getCol()
  return col;
 }
 
-
+/**
+ * Gets the position of this Playbox object.
+ * @return An integer value representing the position
+ */
 public int getPosition()
 {
  return position;
 }
-
+/**
+ * Adds a Tile object to this Playbox object.
+ * @param tile The Tile object to be added
+ */
 public void addTile(Tile tile)
 {
  add(tile);
  this.tile = tile;
 }
+/**
+ * Removes a Tile object from this Playbox object.
+ * @param tile The Tile object to be removed
+ */
 public void rmTile(Tile tile)
 {
  remove(tile);
  tile = null;
 }
+/**
+ * Checks if the Playbox object is empty or not.
+ * @return true if the Playbox object is empty, false otherwise
+ */
 public boolean isEmpty()
 {
  if(tile == null)
@@ -128,9 +142,9 @@ public void mousePressed(MouseEvent e)
 }
 
 /**
- * Updates the individual borders of a playbox.
- * Acts as a helper function for removeBorders().
- * @param bdrs The array of integers representing border thickness.
+ * Handles the MouseEvent for when the mouse is pressed on this Playbox object.
+ * If there is a last tile clicked in the GameWindow, the playboxClick method is called on the GameWindow.
+ * @param e The MouseEvent object representing the event
  */
 public void updateBorders(int[] bdrs)
 {
@@ -172,7 +186,10 @@ public void removeBorders()
 }
 
   
-// Other methods of MouseListener
+/**
+ * Unused methods from the MouseListener interface.
+ * @param e The MouseEvent object representing the event
+ */
 @Override
 public void mouseClicked(MouseEvent e) {}
 

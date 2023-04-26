@@ -12,7 +12,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.ByteBuffer;
-
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 
@@ -31,6 +30,12 @@ public class FileSetup
  private GameWindow gWindow;
  private boolean fileValid = false;
 
+ /**
+  * Constructor for the FileSetup class.
+  * Initializes the FileSetup object with the given parameters.
+  * @param filename The name of the file to be loaded.
+  * @param gWindow The GameWindow object.
+  */
  public FileSetup(String filename, GameWindow gWindow)
  {
   this.gWindow = gWindow;
@@ -51,12 +56,10 @@ public class FileSetup
    else
    {   
 	fileValid = false;
-	JOptionPane.showMessageDialog(null, "Error opening .mze file", "Error", JOptionPane.ERROR_MESSAGE);
-	//LoadAndSave loadAndSave = new LoadAndSave(gWindow);
-    //loadAndSave.showLoadDialog();
+	JOptionPane.showMessageDialog(null, "Error opening " + filename +" file", "Error", JOptionPane.ERROR_MESSAGE);
+	return;
    }
    
-   System.out.println(fileValid);
    if(fileValid)
    {
     byte[] numTilesBytes = new byte[4];
@@ -125,28 +128,43 @@ public class FileSetup
    }
   }
  }
- 
+ /**
+  * Returns whether the file is valid or not.
+  * @return true if the file is valid, false otherwise.
+  */
  public boolean isValid()
  {
   return fileValid;
  }
  
- 
+ /**
+  * Returns a 2D array containing the line coordinates for the maze.
+  * @return A 2D float array containing the line coordinates.
+  */
  public float[][] getLineCoords() 
  {
   return lineCoords;
  }
-
+ /**
+  * Returns whether the FileSetup object is unplayed or not.
+  * @return true if the object is unplayed, false otherwise.
+  */
  public boolean isUnplayed() 
  {
   return unplayed;
  }
-
+ /**
+  * Returns an array containing the original tile positions.
+  * @return An integer array containing the original tile positions.
+  */
  public int[] getTilePositionsOg()
  {
   return tilePositionsOg;
  }
-
+ /**
+  * Returns an array containing the original tile rotations.
+  * @return An integer array containing the original tile rotations.
+  */
  public int[] getTileRotationsOg()
  {
   return tileRotationsOg;

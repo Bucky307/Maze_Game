@@ -27,12 +27,19 @@ public class GameWindow extends JFrame implements MouseListener
 {
  
 private static PlayAreas pArea;
-public static LoadTiles loadTiles;
 
+public static LoadTiles loadTiles;
+public static boolean unplayed;
+public static int[] tilePositions;
+public static int[] tileRotations;
+public static float[][] lineCoords;
+public static int[] tileNum;
 public static int[][] gridData = new int[4][4];
 public static Playbox[][] pboxArr = new Playbox[4][4];
 public static Tile lastTileClicked = null;
 public static final long serialVersionUID=1;
+
+private static boolean edited;
 /**
  * Constructor for GameWindow.
  * Takes a string to set the window name.
@@ -45,12 +52,35 @@ public GameWindow(String s)
  super.addMouseListener(this);
  GridBagLayout gbl = new GridBagLayout();
  setLayout(gbl);
+ edited = false;
+}
+/**
+ * Sets the edited flag to true.
+ */
+public static void setEdited() {
+ edited = true;
+ return;
+}
+/**
+ * Sets the edited flag to false.
+ */
+public static void setUnedited() {
+ edited = false;
+ return;
+}
+/**
+ * Returns the value of the edited flag.
+ *
+ * @return boolean value indicating whether the game has been edited.
+ */
+public static boolean getEdited() {
+ return edited;
 }
 
 /**
- * This method sets up the game board.
- * It takes the data from the .mze file and turns it into usable coordinates
- * that are used to paint on top of the tile objects.
+ * Sets up the game board.
+ * 
+ * @param fileName The name of the .mze file containing the game data.
  */
 public void setUp(String fileName)
 {
@@ -122,7 +152,6 @@ public static void tileClick(Tile tile)
 public static void playboxClick(Playbox pbox) 
 {
  Container parent = lastTileClicked.getParent();
- loadTiles.setUnplayed();
  
  int prevRow = ((Playbox) parent).getRow();
  int prevCol = ((Playbox) parent).getCol();
@@ -151,9 +180,12 @@ public static void playboxClick(Playbox pbox)
  }
 
  fixBorders();
-
+ setEdited();
 }
 
+/**
+ * Fixes the borders of the playboxes based on whether they have tiles or not.
+ */
 public static void fixBorders()
 {
  // Set borders of all grid playboxes to have full borders
@@ -199,39 +231,40 @@ public static void reset()
  fixBorders();
  // Repaint the PlayAreas
  pArea.repaintBorders();
+ setUnedited();
 }
 
-
-public static boolean unplayed;
-public static int[] tilePositions;
-public static int[] tileRotations;
-public static float[][] lineCoords;
-public static int[] tileNum;
-
+/**
+ * Retrieves data for saving the game.
+ */
 public void getSaveData()
 {
- unplayed = loadTiles.isUnplayed();
  tilePositions = loadTiles.getTilePositions();
  tileRotations = loadTiles.getTileRotations();
  lineCoords = loadTiles.getLineCoordsOg();
  tileNum = loadTiles.getTileNum();
 }
-
+/**
+ * Sets a grid location to have a tile.
+ * 
+ * @param row The row of the grid location.
+ * @param col The column of the grid location.
+ */
 public void setGrid(int row, int col)
 {
  pArea.gridData[row][col] = 1; 
 }
-
+/**
+ * Loads a game from a specified file.
+ * 
+ * @param fileName The name of the file containing the game data.
+ */
 public void loadGame(String fileName) 
 {
  getContentPane().removeAll(); 
  setUp(fileName); 
  revalidate(); 
  repaint();
-}
-
-public static void updatePlayed() {
-	loadTiles.setUnplayed();
 }
 
 /**

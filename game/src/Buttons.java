@@ -1,3 +1,12 @@
+/**
+ * Buttons class handles all
+ * thing buttons, creation and
+ * actions.
+ * @author Buck Harris
+ * Date: Mar 30, 2023
+ * Updated: Apr 02, 2023
+ */
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -8,13 +17,22 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 
+/**
+ * This class handles the button creation and handles
+ * the specific actions of the buttons
+ */
 public class Buttons implements ActionListener
 {
  private JButton lbutton, rbutton, mbutton; 
  private JPanel ButtonPanel;
  private String fileName = null;
  private GameWindow gWindow;
- 
+ /**
+  * Constructor for the Buttons class.
+  * Initializes the Buttons object with the given parameters.
+  * @param basic GridBagConstraints object used for setting up the layout.
+  * @param gWindow The GameWindow object.
+  */
  public Buttons(GridBagConstraints basic, GameWindow gWindow)
  {
   this.gWindow = gWindow;
@@ -47,27 +65,33 @@ public class Buttons implements ActionListener
   basic.insets = new Insets(10,10,10,10);
   //add(ButtonPanel, basic);
  }
-
+ /**
+  * Returns the JPanel containing the buttons.
+  * @return The JPanel object that contains the buttons.
+  */
  public JPanel getButtonPanel()
  {
   return ButtonPanel;
  }
+ /**
+  * Returns the name of the file.
+  * @return A string representing the file name.
+  */
  public String getFileName()
  {
   return fileName;
  }
 
  
-/**
- * This method uses actionListener to call button functions.
- *
- * @param e the class which is used to return a result of a button action.
- */
+ /**
+  * This method handles button events using an ActionListener.
+  * @param e The ActionEvent object triggered by the button actions.
+  */
  public void actionPerformed(ActionEvent e) 
  {
   if ("Quit".equals(e.getActionCommand()))
   {
-   if (!GameWindow.loadTiles.isUnplayed())
+   if (GameWindow.getEdited())
    {
     int response = JOptionPane.showConfirmDialog(null,
                    "Do you want to save your game before quitting?",
@@ -84,10 +108,14 @@ public class Buttons implements ActionListener
     {
      System.exit(0);
     }
+   }else {
+	 System.exit(0);
    }
   }
-  if ("Reset".equals(e.getActionCommand()) && GameWindow.loadTiles.getisValid())
-   GameWindow.reset(); 
+  
+  if ("Reset".equals(e.getActionCommand()) && GameWindow.loadTiles.getisValid()) {
+   GameWindow.reset();
+  }
   if ("File".equals(e.getActionCommand()))
   {
    LoadAndSave loadAndSave = new LoadAndSave(gWindow);

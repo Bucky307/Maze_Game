@@ -10,6 +10,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
  
+/**
+ * This class handles the randomization of
+ * tile rotation and for tile indices.
+ */
 public class Randomizer
 {
 

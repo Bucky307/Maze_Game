@@ -72,20 +72,34 @@ protected void paintComponent(Graphics g)
   g.drawLine(x1, y1, x2, y2);
  }
 }
-
+/**
+ * Gets the current rotation of this Tile object.
+ * @return An integer value representing the current rotation
+ */
 public int getRotation()
 {
  return tileRotation;
 }
-
+/**
+ * Gets the current position of this Tile object.
+ * @return An integer value representing the current position
+ */
 public int getPosition()
 {
  return tilePosition;
 }
+/**
+ * Gets the original line coordinates of this Tile object.
+ * @return An array of floats representing the original line coordinates
+ */
 public float[] getlineCoordsOg()
 {
  return lineCoordsOg;
 }
+/**
+ * Gets the tile number of this Tile object.
+ * @return An integer value representing the tile number
+ */
 public int getTileNum()
 {
  return tileNum;
@@ -100,7 +114,10 @@ public int getOriginalRotation()
 {
  return tileRotationOg;
 }
-
+/**
+ * Gets the original position of this Tile object.
+ * @return An integer value representing the original position
+ */
 public int getOriginalPosition()
 {
 	return tilePositionOg;
@@ -149,15 +166,20 @@ public void rotate(int tileRotationOg)
  while(tileRotation != tileRotationOg)
   rotate();
 }
-
+/**
+ * Updates the position of this Tile object based on the given Playbox object.
+ * @param pbox The Playbox object used to update the position
+ */
 public void updatePosition(Playbox pbox)
 {
   tilePosition = pbox.getPosition();
 }
 
 /**
- * Passes which tile is pressed to GameWindow.
- * @param e The MouseEvent object representing the event.
+ * Handles the MouseEvent for when the mouse is pressed on this Tile object.
+ * If the right mouse button is clicked, the tile is rotated, and the GameWindow is updated.
+ * If the left mouse button is clicked, the tileClick method is called on the GameWindow.
+ * @param e The MouseEvent object representing the event
  */
 @Override
 public void mousePressed(MouseEvent e) 
@@ -166,13 +188,11 @@ public void mousePressed(MouseEvent e)
  {
   if(GameWindow.lastTileClicked != null)
    GameWindow.lastTileClicked.setBackground(new Color(175, 175, 175));
-  GameWindow.lastTileClicked = null;
-  GameWindow.updatePlayed();
-  this.rotate();
+   GameWindow.lastTileClicked = null;
+   GameWindow.setEdited();
+   this.rotate();
  }
  else GameWindow.tileClick(this);
- System.out.println("Tile: " + tileNum + " Position: " + tilePosition + " Rotation: " + tileRotation);
-
 }
 
 /**
