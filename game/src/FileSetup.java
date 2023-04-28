@@ -73,31 +73,30 @@ public class FileSetup
     for (int i = 0; i < numTiles; i++)
     {
      byte[] tileNumBytes = new byte[4];
-	 inputStream.read(tileNumBytes);
-	 int tileNum = ByteBuffer.wrap(tileNumBytes).getInt();
+     inputStream.read(tileNumBytes);
+     int tileNum = ByteBuffer.wrap(tileNumBytes).getInt();
 
 
-	 byte[] tileRotBytes = new byte[4];
-	 inputStream.read(tileRotBytes);
- 	 int tileRot = ByteBuffer.wrap(tileRotBytes).getInt();
+    byte[] tileRotBytes = new byte[4];
+    inputStream.read(tileRotBytes);
+    int tileRot = ByteBuffer.wrap(tileRotBytes).getInt();
 
-	 tilePositionsOg[i] = tileNum;
-	 tileRotationsOg[i] = tileRot;
+    tilePositionsOg[i] = tileNum;
+    tileRotationsOg[i] = tileRot;
 	
-	 byte[] numLinesBytes = new byte[4];
-	 inputStream.read(numLinesBytes);
-	 int numLines = ByteBuffer.wrap(numLinesBytes).getInt();
+    byte[] numLinesBytes = new byte[4]; 
+    inputStream.read(numLinesBytes);
+    int numLines = ByteBuffer.wrap(numLinesBytes).getInt();
 
-	 lineCoords[i] = new float[numLines * 4];
+    lineCoords[i] = new float[numLines * 4];
 
-	 for (int j = 0; j < numLines; j++)
-	 {
-	  byte[] lineBytes = new byte[16];
-	  inputStream.read(lineBytes);
-	  ByteBuffer.wrap(lineBytes).asFloatBuffer().get(lineCoords[i], j * 4, 4);
+    for (int j = 0; j < numLines; j++)
+    {
+     byte[] lineBytes = new byte[16];
+     inputStream.read(lineBytes);
+     ByteBuffer.wrap(lineBytes).asFloatBuffer().get(lineCoords[i], j * 4, 4);
 	 
-	 }
-
+    }
     }
    }
   }
@@ -115,9 +114,9 @@ public class FileSetup
    if (inputStream != null)
    {   
     try
-    { 
+    {
      inputStream.close();
-    }  
+    } 
     catch (IOException e)
     {
      e.printStackTrace();
@@ -133,7 +132,6 @@ public class FileSetup
  {
   return fileValid;
  }
- 
  /**
   * Returns a 2D array containing the line coordinates for the maze.
   * @return A 2D float array containing the line coordinates.
@@ -166,5 +164,3 @@ public class FileSetup
  {
   return tileRotationsOg;
  }
-	
-}
