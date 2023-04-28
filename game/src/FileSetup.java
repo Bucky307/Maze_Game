@@ -97,10 +97,7 @@ public class FileSetup
 	  ByteBuffer.wrap(lineBytes).asFloatBuffer().get(lineCoords[i], j * 4, 4);
 	 
 	 }
-	
-	 if (!unplayed)
-	  System.out.printf("Num: %d, Pos: %d, Rot: %d%n",
-             i, tilePositionsOg[i], tileRotationsOg[i]);
+
     }
    }
   }
@@ -117,12 +114,12 @@ public class FileSetup
   {
    if (inputStream != null)
    {   
-	try
-	{
-	 inputStream.close();
-	} 
-	catch (IOException e)
-	{
+    try
+    { 
+     inputStream.close();
+    }  
+    catch (IOException e)
+    {
      e.printStackTrace();
     }
    }
