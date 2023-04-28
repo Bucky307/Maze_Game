@@ -124,8 +124,8 @@ public class LoadAndSave
   {
    if(!gWindow.isValid())
    {
-	  JOptionPane.showMessageDialog(null, "Cannot save, no .mze file loaded.", "Error", JOptionPane.ERROR_MESSAGE);
-	  return;
+    JOptionPane.showMessageDialog(null, "Cannot save, no .mze file loaded.", "Error", JOptionPane.ERROR_MESSAGE);
+    return;
    }
     
    JFileChooser fileChooser = new JFileChooser();
