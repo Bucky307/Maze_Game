@@ -50,14 +50,14 @@ public class FileSetup
    byte[] headerBytes = new byte[4];
    inputStream.read(headerBytes);
    if (ByteBuffer.wrap(headerBytes).getInt() == 0xcafebeef)
-	{unplayed = true; fileValid = true;}
+    {unplayed = true; fileValid = true;}
    else if (ByteBuffer.wrap(headerBytes).getInt() == 0xcafedeed)
     {unplayed = false; fileValid = true;}
    else
    {   
-	fileValid = false;
-	JOptionPane.showMessageDialog(null, "Error opening " + filename +" file", "Error", JOptionPane.ERROR_MESSAGE);
-	return;
+    fileValid = false;
+    JOptionPane.showMessageDialog(null, "Error opening " + filename +" file", "Error", JOptionPane.ERROR_MESSAGE);
+    return;
    }
    
    if(fileValid)
@@ -77,26 +77,25 @@ public class FileSetup
      int tileNum = ByteBuffer.wrap(tileNumBytes).getInt();
 
 
-    byte[] tileRotBytes = new byte[4];
-    inputStream.read(tileRotBytes);
-    int tileRot = ByteBuffer.wrap(tileRotBytes).getInt();
+     byte[] tileRotBytes = new byte[4];
+     inputStream.read(tileRotBytes);
+     int tileRot = ByteBuffer.wrap(tileRotBytes).getInt();
 
-    tilePositionsOg[i] = tileNum;
-    tileRotationsOg[i] = tileRot;
+     tilePositionsOg[i] = tileNum;
+     tileRotationsOg[i] = tileRot;
 	
-    byte[] numLinesBytes = new byte[4]; 
-    inputStream.read(numLinesBytes);
-    int numLines = ByteBuffer.wrap(numLinesBytes).getInt();
+     byte[] numLinesBytes = new byte[4]; 
+     inputStream.read(numLinesBytes);
+     int numLines = ByteBuffer.wrap(numLinesBytes).getInt();
 
-    lineCoords[i] = new float[numLines * 4];
+     lineCoords[i] = new float[numLines * 4];
 
-    for (int j = 0; j < numLines; j++)
-    {
-     byte[] lineBytes = new byte[16];
-     inputStream.read(lineBytes);
-     ByteBuffer.wrap(lineBytes).asFloatBuffer().get(lineCoords[i], j * 4, 4);
-	 
-    }
+     for (int j = 0; j < numLines; j++)
+     {
+      byte[] lineBytes = new byte[16];
+      inputStream.read(lineBytes);
+      ByteBuffer.wrap(lineBytes).asFloatBuffer().get(lineCoords[i], j * 4, 4);	 
+     }
     }
    }
   }
@@ -164,3 +163,4 @@ public class FileSetup
  {
   return tileRotationsOg;
  }
+}
