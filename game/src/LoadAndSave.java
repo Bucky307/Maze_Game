@@ -122,6 +122,12 @@ public class LoadAndSave
   @Override
   public void actionPerformed(ActionEvent e) 
   {
+   if(!gWindow.isValid())
+   {
+	  JOptionPane.showMessageDialog(null, "Cannot save, no .mze file loaded.", "Error", JOptionPane.ERROR_MESSAGE);
+	  return;
+   }
+    
    JFileChooser fileChooser = new JFileChooser();
    fileChooser.setCurrentDirectory(new File("input/"));
    int returnValue = fileChooser.showSaveDialog(null);
@@ -203,8 +209,8 @@ public class LoadAndSave
    }
    catch (IOException e) 
    {
-	e.printStackTrace();
-	JOptionPane.showMessageDialog(null, "Error saving maze data.", "Error", JOptionPane.ERROR_MESSAGE);
+	  e.printStackTrace();
+	  JOptionPane.showMessageDialog(null, "Error saving maze data.", "Error", JOptionPane.ERROR_MESSAGE);
    }
   }
  }
