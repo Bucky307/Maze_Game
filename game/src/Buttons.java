@@ -103,6 +103,7 @@ public class Buttons implements ActionListener
     {
      LoadAndSave loadAndSave = new LoadAndSave(gWindow);
      loadAndSave.showSaveDialog(); 
+     System.exit(0);
     } 
     else if(response == JOptionPane.NO_OPTION) 
     {

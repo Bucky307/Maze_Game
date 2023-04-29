@@ -99,10 +99,10 @@ public class LoadAndSave
 
    JFileChooser fileChooser = new JFileChooser();
    fileChooser.setDialogTitle("Load");
-   fileChooser.setCurrentDirectory(new File("input/"));  
-   fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+   fileChooser.setCurrentDirectory(new File("../input/"));
+   //fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 
-   
+
    int returnValue = fileChooser.showOpenDialog(gWindow);
 
    if (returnValue == JFileChooser.APPROVE_OPTION)
@@ -133,20 +133,20 @@ public class LoadAndSave
     JOptionPane.showMessageDialog(null, "Cannot save, no .mze file loaded.", "Error", JOptionPane.ERROR_MESSAGE);
     return;
    }
-    
+
    JFileChooser fileChooser = new JFileChooser();
    fileChooser.setDialogTitle("Save");
-   fileChooser.setCurrentDirectory(new File("input/"));
-   fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+   fileChooser.setCurrentDirectory(new File("../input/"));
+  // fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 
    int returnValue = fileChooser.showSaveDialog(null);
-   if (returnValue == JFileChooser.APPROVE_OPTION) 
+   if (returnValue == JFileChooser.APPROVE_OPTION)
    {
     File selectedFile = fileChooser.getSelectedFile();
     if (selectedFile != null) 
     {
      fileName = selectedFile.getName();
-     File file = new File("input/", fileName);
+     File file = new File("../input/", fileName);
      if (file.exists()) 
      {
       int result = JOptionPane.showConfirmDialog(null, "File already exists. Do you want to overwrite it?", "Warning", JOptionPane.YES_NO_OPTION);
@@ -154,6 +154,10 @@ public class LoadAndSave
       {
        gWindow.getSaveData();
        saveMaze(fileName, gWindow.unplayed, gWindow.tilePositions, gWindow.tileRotations, gWindow.lineCoords, gWindow.tileNum);
+      }
+      else if (result == JOptionPane.NO_OPTION)
+      {
+       showSaveDialog();
       }
      } 
      else 
@@ -175,11 +179,10 @@ public class LoadAndSave
    */
   public void saveMaze(String fileName, boolean unplayed, int[] tilePositions, int[] tileRotations, float[][] lineCoords, int[] tileNum) 
   {
-   File file = new File("input/", fileName);
-   
+   File file = new File("../input/", fileName);
    gWindow.setUnedited();
    try (FileOutputStream outputStream = new FileOutputStream(file)) 
-   {       
+   {
     // Write the header
     int header = 0xcafedeed;
     outputStream.write(ByteBuffer.allocate(4).putInt(header).array());
@@ -187,17 +190,14 @@ public class LoadAndSave
     // Write the number of tiles
     int numTiles = tilePositions.length;
     outputStream.write(ByteBuffer.allocate(4).putInt(numTiles).array());
-    
+
     // Sort the tiles based on their numbers
     Integer[] indices = new Integer[numTiles];
     for (int i = 0; i < numTiles; i++) {
-        indices[i] = i;
+        indices[tileNum[i]] = i;
     }
 
-    Arrays.sort(indices, (a, b) -> Integer.compare(tileNum[a], tileNum[b]));
-
-    for (int i = 0; i < 16; i++) 
-    {
+    for (int i = 0; i < 16; i++) {
      // Write the tile number, tile position and tile rotation
      //outputStream.write(ByteBuffer.allocate(4).putInt(tileNum[index]).array());
      outputStream.write(ByteBuffer.allocate(4).putInt(tilePositions[indices[i]]).array());
@@ -208,7 +208,7 @@ public class LoadAndSave
      outputStream.write(ByteBuffer.allocate(4).putInt(numLines).array());
 
      // Write the line coordinates
-     for (int j = 0; j < numLines; j++) 
+     for (int j = 0; j < numLines; j++)
      {
       float[] lineSegment = Arrays.copyOfRange(lineCoords[indices[i]], j * 4, j * 4 + 4);
       byte[] lineSegmentBytes = new byte[lineSegment.length * 4];

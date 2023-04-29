@@ -12,7 +12,7 @@ import java.awt.*;
  * This is the Main class that instantiates the
  * GameWindow and handles possible errors.
  */
-public class Main 
+public class Main
 {
  /**
  *	main creates a GameWindow object which allows the rest
@@ -24,7 +24,6 @@ public class Main
     // This is the play area
 
     GameWindow game = new GameWindow("Group Foxtrot aMaze");
-    
 
     game.setSize(new Dimension(900, 1000));
 
@@ -33,7 +32,7 @@ public class Main
     game.getContentPane().setBackground(Color.PINK);
 
     game.setUp("default.mze");
-   
+
     // May or may not need this 
     game.setVisible(true);
 
@@ -44,9 +43,9 @@ public class Main
       // The 4 that are installed on Linux here
       // May have to test on Windows boxes to see what is there.  
       // And frankly, I do NOT care about what Macs may do. 
-      //UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+      UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
       // This is the "Java" or CrossPlatform version and the default
-      UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
+     // UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
       // Linux only
       //UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
       // really old style Motif 
