@@ -96,9 +96,15 @@ public class LoadAndSave
 	 return;
 	}
    }
+
    JFileChooser fileChooser = new JFileChooser();
-   fileChooser.setCurrentDirectory(new File("input/"));
-   int returnValue = fileChooser.showOpenDialog(null);
+   fileChooser.setDialogTitle("Load");
+   fileChooser.setCurrentDirectory(new File("input/"));  
+   fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+
+   
+   int returnValue = fileChooser.showOpenDialog(gWindow);
+
    if (returnValue == JFileChooser.APPROVE_OPTION)
    {
     File selectedFile = fileChooser.getSelectedFile();
@@ -122,8 +128,17 @@ public class LoadAndSave
   @Override
   public void actionPerformed(ActionEvent e) 
   {
+   if(!gWindow.loadTiles.getisValid())
+   {
+    JOptionPane.showMessageDialog(null, "Cannot save, no .mze file loaded.", "Error", JOptionPane.ERROR_MESSAGE);
+    return;
+   }
+    
    JFileChooser fileChooser = new JFileChooser();
+   fileChooser.setDialogTitle("Save");
    fileChooser.setCurrentDirectory(new File("input/"));
+   fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+
    int returnValue = fileChooser.showSaveDialog(null);
    if (returnValue == JFileChooser.APPROVE_OPTION) 
    {
@@ -161,11 +176,12 @@ public class LoadAndSave
   public void saveMaze(String fileName, boolean unplayed, int[] tilePositions, int[] tileRotations, float[][] lineCoords, int[] tileNum) 
   {
    File file = new File("input/", fileName);
-
+   
+   gWindow.setUnedited();
    try (FileOutputStream outputStream = new FileOutputStream(file)) 
    {       
     // Write the header
-    int header = unplayed ?  0xcafebeef : 0xcafedeed;
+    int header = 0xcafedeed;
     outputStream.write(ByteBuffer.allocate(4).putInt(header).array());
 
     // Write the number of tiles
@@ -203,8 +219,8 @@ public class LoadAndSave
    }
    catch (IOException e) 
    {
-	e.printStackTrace();
-	JOptionPane.showMessageDialog(null, "Error saving maze data.", "Error", JOptionPane.ERROR_MESSAGE);
+	  e.printStackTrace();
+	  JOptionPane.showMessageDialog(null, "Error saving maze data.", "Error", JOptionPane.ERROR_MESSAGE);
    }
   }
  }

@@ -31,7 +31,7 @@ public class LoadTiles
  private FileSetup file;
  private boolean unplayed;
  private GameWindow gWindow;
- private boolean isValid;
+ private static boolean isValid;
  
 
  /**
@@ -54,11 +54,12 @@ public class LoadTiles
   file = new FileSetup(fileName, gWindow);
   unplayed = file.isUnplayed();
   isValid = file.isValid();
-  tile = new Tile[16];
   
+  tile = new Tile[16];
+
   if(isValid == false)
    return;
-  
+
   if (unplayed)
    addTilesDefault();
   else
