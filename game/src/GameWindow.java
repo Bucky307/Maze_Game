@@ -54,6 +54,7 @@ public GameWindow(String s)
  setLayout(gbl);
  edited = false;
 }
+
 /**
  * Sets the edited flag to true.
  */
@@ -95,12 +96,10 @@ public void setUp(String fileName)
  LPanel.addMouseListener(this);
  RPanel.addMouseListener(this);
  
- //Generates the Random arrays
- 
  //Adds the tiles for default.mze
  loadTiles = new LoadTiles(grid, LPanel, RPanel, fileName, this);
  //pArea.addTiles(indices, rotations);
- 
+
  // Adds the grid
  basic.ipadx = 0; basic.ipady = 0; 
  basic.gridx = 1; basic.gridy = 1;
@@ -119,7 +118,8 @@ public void setUp(String fileName)
  // Adds the Buttons
  Buttons buttons = new Buttons(basic, this);
  add(buttons.getButtonPanel(), basic);
- reset();
+
+ reset(); 
  return;
 }
 
@@ -208,7 +208,6 @@ public static void fixBorders()
    }
   }
  }
- 
  pArea.repaintBorders();	
  
 }
@@ -263,7 +262,7 @@ public void loadGame(String fileName)
 {
  getContentPane().removeAll(); 
  setUp(fileName); 
- revalidate(); 
+ revalidate();
  repaint();
 }
 
