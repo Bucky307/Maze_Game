@@ -44,8 +44,7 @@ public class Main
       // The 4 that are installed on Linux here
       // May have to test on Windows boxes to see what is there.  
       // And frankly, I do NOT care about what Macs may do. 
-      UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-      //UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+      UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
       // This is the "Java" or CrossPlatform version and the default
       //UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
       // Linux only
