@@ -33,7 +33,6 @@ public class LoadTiles
  private GameWindow gWindow;
  private static boolean isValid;
  
-
  /**
   * Constructor for the LoadTiles class.
   * Initializes the LoadTiles object with the given parameters.
@@ -252,4 +251,13 @@ public class LoadTiles
    }
   }	 
  }
+ public Tile[] getTiles()
+ {
+  return tile;
+ }
+ public long getTimeOg()
+ {
+  return file.getTimeOg();
+ }
+ 
 }

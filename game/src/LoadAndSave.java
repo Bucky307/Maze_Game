@@ -153,13 +153,17 @@ public class LoadAndSave
       if (result == JOptionPane.YES_OPTION) 
       {
        gWindow.getSaveData();
-       saveMaze(fileName, gWindow.unplayed, gWindow.tilePositions, gWindow.tileRotations, gWindow.lineCoords, gWindow.tileNum);
+       saveMaze(fileName, gWindow.unplayed, gWindow.tilePositions, gWindow.tileRotations, gWindow.lineCoords, gWindow.tileNum, gWindow.timeOg);
+      }
+      else if (result == JOptionPane.NO_OPTION)
+      {
+       showSaveDialog(); 
       }
      } 
      else 
      {
       gWindow.getSaveData();
-      saveMaze(fileName, gWindow.unplayed, gWindow.tilePositions, gWindow.tileRotations, gWindow.lineCoords, gWindow.tileNum);
+      saveMaze(fileName, gWindow.unplayed, gWindow.tilePositions, gWindow.tileRotations, gWindow.lineCoords, gWindow.tileNum, gWindow.timeOg);
      }
     }
    }
@@ -173,7 +177,7 @@ public class LoadAndSave
    * @param lineCoords The coordinates of the lines in the maze.
    * @param tileNum The number of tiles in the maze.
    */
-  public void saveMaze(String fileName, boolean unplayed, int[] tilePositions, int[] tileRotations, float[][] lineCoords, int[] tileNum) 
+  public void saveMaze(String fileName, boolean unplayed, int[] tilePositions, int[] tileRotations, float[][] lineCoords, int[] tileNum, float timeOg) 
   {
    File file = new File("input/", fileName);
    
@@ -188,13 +192,15 @@ public class LoadAndSave
     int numTiles = tilePositions.length;
     outputStream.write(ByteBuffer.allocate(4).putInt(numTiles).array());
     
+    // Write the timeOg variable
+    outputStream.write(ByteBuffer.allocate(8).putDouble((double) timeOg).array());
+    
     // Sort the tiles based on their numbers
     Integer[] indices = new Integer[numTiles];
-    for (int i = 0; i < numTiles; i++) {
-        indices[i] = i;
+    for (int i = 0; i < numTiles; i++) 
+    {
+     indices[tileNum[i]] = i;
     }
-
-    Arrays.sort(indices, (a, b) -> Integer.compare(tileNum[a], tileNum[b]));
 
     for (int i = 0; i < 16; i++) 
     {

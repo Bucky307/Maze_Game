@@ -25,8 +25,6 @@ public class PlayAreas extends JPanel
  private JPanel grid;
  private JPanel LPanel;
  private JPanel RPanel;
- //private FileSetup file = new FileSetup("played.mze");
- private Tile[] tile;
  public static Playbox[][] pboxArr;
  public static int[][] gridData;
  
@@ -129,15 +127,6 @@ public class PlayAreas extends JPanel
  }
 
  /**
-  * Returns the array of Tile objects.
-  *
-  * @return The array of Tile objects.
-  */
- public Tile[] getTile()
- {
-  return tile;
- }
- /**
   * Returns the Grid object for the grid.
   *
   * @return The Grid object for the grid.
@@ -164,5 +153,8 @@ public class PlayAreas extends JPanel
  {
   return RPanel;
  } 
+ 
+
+ 
 
 }

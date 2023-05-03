@@ -59,7 +59,7 @@ public class Buttons implements ActionListener
    buttons[i].setActionCommand(action[i]);
    }
   //Creates space for buttons and adds the
-  basic.gridx=1; basic.gridy=0;
+  basic.gridx=1; basic.gridy=1;
   basic.ipadx = 0; basic.ipady = 0;
   basic.gridwidth = 1; basic.gridheight = 1;
   basic.insets = new Insets(10,10,10,10);
@@ -103,6 +103,7 @@ public class Buttons implements ActionListener
     {
      LoadAndSave loadAndSave = new LoadAndSave(gWindow);
      loadAndSave.showSaveDialog(); 
+     System.exit(0);
     } 
     else if(response == JOptionPane.NO_OPTION) 
     {

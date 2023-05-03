@@ -174,7 +174,7 @@ public void updatePosition(Playbox pbox)
 {
   tilePosition = pbox.getPosition();
 }
-
+ 
 /**
  * Handles the MouseEvent for when the mouse is pressed on this Tile object.
  * If the right mouse button is clicked, the tile is rotated, and the GameWindow is updated.
@@ -184,6 +184,9 @@ public void updatePosition(Playbox pbox)
 @Override
 public void mousePressed(MouseEvent e) 
 {
+ //System.out.println("Tile: " + tileNum + " Rot: " + tileRotation);
+	
+ GameWindow.gTime.start();
  if (e.getButton() == MouseEvent.BUTTON3)
  {
   if(GameWindow.lastTileClicked != null)
@@ -191,8 +194,14 @@ public void mousePressed(MouseEvent e)
    GameWindow.lastTileClicked = null;
    GameWindow.setEdited();
    this.rotate();
+   GameWindow.winChecker();
  }
- else GameWindow.tileClick(this);
+ else
+ {
+  GameWindow.tileClick(this);
+ }
+ 
+ 
 }
 
 /**

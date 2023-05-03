@@ -30,6 +30,7 @@ public class FileSetup
  private int[] tileRotationsOg;
  private GameWindow gWindow;
  private boolean fileValid = false;
+ private long timeOg = 0;
 
  /**
   * Constructor for the FileSetup class.
@@ -67,6 +68,13 @@ public class FileSetup
     inputStream.read(numTilesBytes);
     int numTiles = ByteBuffer.wrap(numTilesBytes).getInt();
     
+    byte[] timeOgBytes = new byte[8];
+    inputStream.read(timeOgBytes);
+    timeOg = (long) ByteBuffer.wrap(timeOgBytes).getDouble();
+
+    if (unplayed)
+     timeOg = 0;
+     
     tilePositionsOg = new int[numTiles];
     tileRotationsOg = new int[numTiles];
     lineCoords = new float[numTiles][];  
@@ -193,4 +201,10 @@ public class FileSetup
  {
   return tileRotationsOg;
  }
+ 
+ public long getTimeOg()
+ {
+  return timeOg;
+ }
+ 
 }
