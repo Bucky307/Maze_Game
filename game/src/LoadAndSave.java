@@ -23,7 +23,7 @@ public class LoadAndSave
 {
  private GameWindow gWindow;
  private String fileName;
- 
+
  /**
   * Constructor for the LoadAndSave class.
   * Initializes the LoadAndSave object with the given parameters.

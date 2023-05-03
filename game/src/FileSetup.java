@@ -160,7 +160,7 @@ public class FileSetup
    loadAndSave.showLoadDialog();
   }
  }
- 
+  
  /**
   * Returns whether the file is valid or not.
   * @return true if the file is valid, false otherwise.

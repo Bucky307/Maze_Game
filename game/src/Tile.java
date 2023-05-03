@@ -174,7 +174,7 @@ public void updatePosition(Playbox pbox)
 {
   tilePosition = pbox.getPosition();
 }
- 
+
 /**
  * Handles the MouseEvent for when the mouse is pressed on this Tile object.
  * If the right mouse button is clicked, the tile is rotated, and the GameWindow is updated.

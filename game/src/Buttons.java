@@ -39,7 +39,7 @@ public class Buttons implements ActionListener
   ButtonPanel = new JPanel();
   JButton[] buttons = {lbutton, mbutton, rbutton};
   String[] action = {"File", "Reset", "Quit"};
-
+ 
   /* Goes through array of button names to name each,
    * 	 
    *  gives each a command, and gives it an actionListener

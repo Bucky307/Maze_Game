@@ -24,7 +24,7 @@ public class Main
     // This is the play area
 
     GameWindow game = new GameWindow("Group Foxtrot aMaze");
-    
+  
 
     game.setSize(new Dimension(900, 1000));
 

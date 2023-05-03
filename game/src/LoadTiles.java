@@ -17,7 +17,7 @@ import java.util.Scanner;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
-
+ 
 /**
  * This class handles loading tiles either 
  * from a default file or from a played maze file

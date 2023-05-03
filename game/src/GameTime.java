@@ -13,7 +13,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
- 
+
 /**
  * A class representing a game timer displayed in a JPanel.
  * This timer shows the elapsed time in hours, minutes, and seconds.

@@ -140,7 +140,7 @@ public void mousePressed(MouseEvent e)
   GameWindow.playboxClick(this);
  }
 }
-
+ 
 /**
  * Handles the MouseEvent for when the mouse is pressed on this Playbox object.
  * If there is a last tile clicked in the GameWindow, the playboxClick method is called on the GameWindow.

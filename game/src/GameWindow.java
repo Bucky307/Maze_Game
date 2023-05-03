@@ -244,7 +244,7 @@ public static void reset()
  gTime.setTime(loadTiles.getTimeOg());
  setUnedited();
 }
-
+ 
 /**
  * Retrieves data for saving the game.
  */
