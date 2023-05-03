@@ -10,6 +10,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import javax.swing.JOptionPane;
 import java.io.*;
 import java.util.Scanner;
 import java.nio.ByteBuffer;
@@ -33,9 +34,11 @@ public static boolean unplayed;
 public static int[] tilePositions;
 public static int[] tileRotations;
 public static float[][] lineCoords;
+public static long timeOg;
 public static int[] tileNum;
-public static int[][] gridData = new int[4][4];
-public static Playbox[][] pboxArr = new Playbox[4][4];
+public static GameTime gTime = new GameTime();
+//public static int[][] gridData = new int[4][4];
+//public static Playbox[][] pboxArr = new Playbox[4][4];
 public static Tile lastTileClicked = null;
 public static final long serialVersionUID=1;
 
@@ -102,12 +105,12 @@ public void setUp(String fileName)
 
  // Adds the grid
  basic.ipadx = 0; basic.ipady = 0; 
- basic.gridx = 1; basic.gridy = 1;
+ basic.gridx = 1; basic.gridy = 2;
  basic.insets = new Insets(75, 10, 10 ,10);
  add(grid, basic);
  
  // Adds the L&R Panels
- basic.ipadx = 1; basic.ipady = 1;
+ basic.ipadx = 1; basic.ipady = 2;
  basic.insets = new Insets(1,50,1,50);
  basic.gridx = 0; basic.gridy = 0;
  basic.gridheight = 8;
@@ -119,6 +122,10 @@ public void setUp(String fileName)
  Buttons buttons = new Buttons(basic, this);
  add(buttons.getButtonPanel(), basic);
 
+ // Add Timer
+ basic.gridx = 1; basic.gridy = 0;
+ add(gTime, basic);
+		 
  reset(); 
  return;
 }
@@ -161,7 +168,7 @@ public static void playboxClick(Playbox pbox)
 
  if (((Playbox) parent).isSidePanel() == false) 
  {
-  pArea.gridData[prevRow][prevCol] = 0;
+  PlayAreas.gridData[prevRow][prevCol] = 0;
  }
  
  // Adds the tile to the playbox and sets colors
@@ -176,9 +183,9 @@ public static void playboxClick(Playbox pbox)
  int newCol = pbox.getCol();
  if (pbox.isSidePanel() == false) 
  {
-  pArea.gridData[newRow][newCol] = 1;
+  PlayAreas.gridData[newRow][newCol] = 1;
  }
-
+ winChecker();
  fixBorders();
  setEdited();
 }
@@ -202,14 +209,14 @@ public static void fixBorders()
  {
   for (int j = 0; j < 4; j++) 
   {
-   if (pArea.gridData[i][j] == 1) 
+   if (PlayAreas.gridData[i][j] == 1) 
    {
     pArea.updatePboxBorders(i, j);
    }
   }
  }
- pArea.repaintBorders();
- 
+ pArea.repaintBorders();	
+
 }
 
 /**
@@ -222,7 +229,7 @@ public static void reset()
  {
   lastTileClicked.setBackground(new Color(175, 175, 175));
  }
- pArea.gridData = new int[4][4];
+ PlayAreas.gridData = new int[4][4];
  lastTileClicked = null;
  
  // Move the tiles to the panels with their original setup   
@@ -230,9 +237,12 @@ public static void reset()
  fixBorders();
  // Repaint the PlayAreas
  pArea.repaintBorders();
+ // Fix time
+ gTime.stop();
+ gTime.setTime(loadTiles.getTimeOg());
  setUnedited();
 }
-
+ 
 /**
  * Retrieves data for saving the game.
  */
@@ -242,6 +252,7 @@ public void getSaveData()
  tileRotations = loadTiles.getTileRotations();
  lineCoords = loadTiles.getLineCoordsOg();
  tileNum = loadTiles.getTileNum();
+ timeOg = gTime.getTime();
 }
 /**
  * Sets a grid location to have a tile.
@@ -251,7 +262,7 @@ public void getSaveData()
  */
 public void setGrid(int row, int col)
 {
- pArea.gridData[row][col] = 1; 
+ PlayAreas.gridData[row][col] = 1; 
 }
 /**
  * Loads a game from a specified file.
@@ -262,9 +273,51 @@ public void loadGame(String fileName)
 {
  getContentPane().removeAll(); 
  setUp(fileName); 
+ gTime.setTime(loadTiles.getTimeOg());
  revalidate();
  repaint();
 }
+/**
+ * Checks if the game has been won by verifying three conditions:
+ * 1. All grid cells in the PlayAreas.gridData array are set to 1.
+ * 2. All tiles have a rotation of 0.
+ * 3. All tiles are in their correct position.
+ *
+ * If all conditions are met, a dialog is displayed showing the completion time
+ * and a message that the game has been won.
+ */
+public static void winChecker()
+{
+ Tile[] tile = loadTiles.getTiles();
+ for (int i = 0; i < PlayAreas.gridData.length; i++)
+ {
+  for (int j = 0; j < PlayAreas.gridData[i].length; j++)
+  {
+	if (PlayAreas.gridData[i][j] != 1)
+    return;
+  }
+ }
+ 
+ for (int i = 0; i < 16; i++)
+ {
+  if (tile[i].getRotation() != 0)
+   return;
+ }
+ for (int i = 0; i < 16; i++)
+ {
+  if (tile[i].getPosition()-16 != i)
+	return;
+ }  
+ gTime.stop();
+ long seconds = gTime.getTime();
+ long hours = seconds / 3600;
+ long minutes = (seconds % 3600) / 60;
+ long secs = seconds % 60;
+ 
+ JOptionPane.showMessageDialog(null, "You won the game!\nTime: " + String.format("%02d:%02d:%02d", hours, minutes, secs)
+                              , "Congratulations!", JOptionPane.INFORMATION_MESSAGE);
+}
+
 
 /**
  * Needed so that if something other than a playbox is pressed,

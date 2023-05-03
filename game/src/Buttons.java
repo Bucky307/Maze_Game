@@ -39,7 +39,7 @@ public class Buttons implements ActionListener
   ButtonPanel = new JPanel();
   JButton[] buttons = {lbutton, mbutton, rbutton};
   String[] action = {"File", "Reset", "Quit"};
-
+ 
   /* Goes through array of button names to name each,
    * 	 
    *  gives each a command, and gives it an actionListener
@@ -59,7 +59,7 @@ public class Buttons implements ActionListener
    buttons[i].setActionCommand(action[i]);
    }
   //Creates space for buttons and adds the
-  basic.gridx=1; basic.gridy=0;
+  basic.gridx=1; basic.gridy=1;
   basic.ipadx = 0; basic.ipady = 0;
   basic.gridwidth = 1; basic.gridheight = 1;
   basic.insets = new Insets(10,10,10,10);

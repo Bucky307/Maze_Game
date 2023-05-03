@@ -17,7 +17,7 @@ import java.util.Scanner;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
-
+ 
 /**
  * This class handles loading tiles either 
  * from a default file or from a played maze file
@@ -32,7 +32,6 @@ public class LoadTiles
  private boolean unplayed;
  private GameWindow gWindow;
  private static boolean isValid;
-
 
  /**
   * Constructor for the LoadTiles class.
@@ -251,4 +250,22 @@ public class LoadTiles
    }
   }	 
  }
+ /**
+  * Returns an array containing the tiles.
+  * @return A Tile array containing the tiles.
+  */
+ public Tile[] getTiles()
+ {
+  return tile;
+ }
+ /**
+  * Returns a long containing the original time.
+  * @return A long array containing the original time.
+  */
+ public long getTimeOg()
+ {
+  return file.getTimeOg();
+ }
+ 
 }
+

@@ -25,6 +25,7 @@ public class Main
 
     GameWindow game = new GameWindow("Group Foxtrot aMaze");
 
+
     game.setSize(new Dimension(900, 1000));
 
     game.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -43,9 +44,10 @@ public class Main
       // The 4 that are installed on Linux here
       // May have to test on Windows boxes to see what is there.  
       // And frankly, I do NOT care about what Macs may do. 
-      UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+      //UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
       // This is the "Java" or CrossPlatform version and the default
-     // UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
+      UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
+
       // Linux only
       //UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
       // really old style Motif 

@@ -23,7 +23,7 @@ public class LoadAndSave
 {
  private GameWindow gWindow;
  private String fileName;
- 
+
  /**
   * Constructor for the LoadAndSave class.
   * Initializes the LoadAndSave object with the given parameters.
@@ -153,7 +153,11 @@ public class LoadAndSave
       if (result == JOptionPane.YES_OPTION) 
       {
        gWindow.getSaveData();
-       saveMaze(fileName, gWindow.unplayed, gWindow.tilePositions, gWindow.tileRotations, gWindow.lineCoords, gWindow.tileNum);
+       saveMaze(fileName, gWindow.unplayed, gWindow.tilePositions, gWindow.tileRotations, gWindow.lineCoords, gWindow.tileNum, gWindow.timeOg);
+      }
+      else if (result == JOptionPane.NO_OPTION)
+      {
+       showSaveDialog(); 
       }
       else if (result == JOptionPane.NO_OPTION)
       {
@@ -163,7 +167,7 @@ public class LoadAndSave
      else 
      {
       gWindow.getSaveData();
-      saveMaze(fileName, gWindow.unplayed, gWindow.tilePositions, gWindow.tileRotations, gWindow.lineCoords, gWindow.tileNum);
+      saveMaze(fileName, gWindow.unplayed, gWindow.tilePositions, gWindow.tileRotations, gWindow.lineCoords, gWindow.tileNum, gWindow.timeOg);
      }
     }
    }
@@ -177,7 +181,7 @@ public class LoadAndSave
    * @param lineCoords The coordinates of the lines in the maze.
    * @param tileNum The number of tiles in the maze.
    */
-  public void saveMaze(String fileName, boolean unplayed, int[] tilePositions, int[] tileRotations, float[][] lineCoords, int[] tileNum) 
+  public void saveMaze(String fileName, boolean unplayed, int[] tilePositions, int[] tileRotations, float[][] lineCoords, int[] tileNum, float timeOg) 
   {
    File file = new File("../input/", fileName);
    gWindow.setUnedited();
@@ -190,14 +194,19 @@ public class LoadAndSave
     // Write the number of tiles
     int numTiles = tilePositions.length;
     outputStream.write(ByteBuffer.allocate(4).putInt(numTiles).array());
-
+    
+    // Write the timeOg variable
+    outputStream.write(ByteBuffer.allocate(8).putDouble((double) timeOg).array());
+    
     // Sort the tiles based on their numbers
     Integer[] indices = new Integer[numTiles];
-    for (int i = 0; i < numTiles; i++) {
-        indices[tileNum[i]] = i;
+    for (int i = 0; i < numTiles; i++) 
+    {
+     indices[tileNum[i]] = i;
     }
 
-    for (int i = 0; i < 16; i++) {
+    for (int i = 0; i < 16; i++) 
+    {
      // Write the tile number, tile position and tile rotation
      //outputStream.write(ByteBuffer.allocate(4).putInt(tileNum[index]).array());
      outputStream.write(ByteBuffer.allocate(4).putInt(tilePositions[indices[i]]).array());
