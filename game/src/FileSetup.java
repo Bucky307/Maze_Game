@@ -201,7 +201,10 @@ public class FileSetup
  {
   return tileRotationsOg;
  }
- 
+ /**
+  * Returns a long containing the original play time.
+  * @return A float  containing the original play time.
+  */
  public long getTimeOg()
  {
   return timeOg;

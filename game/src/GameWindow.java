@@ -279,7 +279,15 @@ public void loadGame(String fileName)
  revalidate();
  repaint();
 }
-
+/**
+ * Checks if the game has been won by verifying three conditions:
+ * 1. All grid cells in the PlayAreas.gridData array are set to 1.
+ * 2. All tiles have a rotation of 0.
+ * 3. All tiles are in their correct position.
+ *
+ * If all conditions are met, a dialog is displayed showing the completion time
+ * and a message that the game has been won.
+ */
 public static void winChecker()
 {
  Tile[] tile = loadTiles.getTiles();
