@@ -89,10 +89,7 @@ public static boolean getEdited() {
 public void setUp(String fileName)
 {
  GridBagConstraints basic = new GridBagConstraints();
- 
- 
- 
- 
+
  //creates the 3 play areas
  pArea = new PlayAreas();
  JPanel grid = pArea.getGrid();
@@ -111,7 +108,7 @@ public void setUp(String fileName)
  basic.gridx = 1; basic.gridy = 2;
  basic.insets = new Insets(75, 10, 10 ,10);
  add(grid, basic);
-	  
+ 
  // Adds the L&R Panels
  basic.ipadx = 1; basic.ipady = 2;
  basic.insets = new Insets(1,50,1,50);
@@ -139,7 +136,7 @@ public void setUp(String fileName)
  * @param tile the Tile object that was clicked.
  */
 public static void tileClick(Tile tile)
-{	 
+{
  if (lastTileClicked != null)
  {
   // Returns tile clicked before to its original color
@@ -219,6 +216,7 @@ public static void fixBorders()
   }
  }
  pArea.repaintBorders();	
+
 }
 
 /**

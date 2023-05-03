@@ -21,7 +21,7 @@ import javax.swing.SwingUtilities;
  * from a given file. It also provides a method to get the line
  * coordinates for the maze.
  */
-public class FileSetup 
+public class FileSetup
 {
  private String filename;
  private float[][] lineCoords;
@@ -42,13 +42,13 @@ public class FileSetup
  {
   this.gWindow = gWindow;
   this.filename = filename;
-  File file = new File("input/", filename);
+  File file = new File("../input/", filename);
   FileInputStream inputStream = null;
-  
-  try 
+
+  try
   {
    inputStream = new FileInputStream(file);
-   
+
    byte[] headerBytes = new byte[4];
    inputStream.read(headerBytes);
    if (ByteBuffer.wrap(headerBytes).getInt() == 0xcafebeef)
@@ -56,17 +56,18 @@ public class FileSetup
    else if (ByteBuffer.wrap(headerBytes).getInt() == 0xcafedeed)
     {unplayed = false; fileValid = true;}
    else
-   {   
+   {
 	fileValid = false;
 	JOptionPane.showMessageDialog(null, "Error opening " + filename +" file", "Error", JOptionPane.ERROR_MESSAGE);
 	return;
    }
-   
+
    if(fileValid)
    {
     byte[] numTilesBytes = new byte[4];
     inputStream.read(numTilesBytes);
     int numTiles = ByteBuffer.wrap(numTilesBytes).getInt();
+
     
     byte[] timeOgBytes = new byte[8];
     inputStream.read(timeOgBytes);
@@ -77,7 +78,7 @@ public class FileSetup
      
     tilePositionsOg = new int[numTiles];
     tileRotationsOg = new int[numTiles];
-    lineCoords = new float[numTiles][];  
+    lineCoords = new float[numTiles][];
 
     for (int i = 0; i < numTiles; i++)
     {
@@ -92,7 +93,7 @@ public class FileSetup
 
     tilePositionsOg[i] = tileNum;
     tileRotationsOg[i] = tileRot;
-	
+
     byte[] numLinesBytes = new byte[4]; 
     inputStream.read(numLinesBytes);
     int numLines = ByteBuffer.wrap(numLinesBytes).getInt();
@@ -113,7 +114,7 @@ public class FileSetup
    JOptionPane.showMessageDialog(null, "Error opening " + filename +" file", "Error", JOptionPane.ERROR_MESSAGE);
    LoadAndSave loadAndSave = new LoadAndSave(gWindow);
    SwingUtilities.invokeLater(new LoadDialogRunnable(loadAndSave));
-   return;   
+   return;
   }
   catch (IOException e)
   {
@@ -126,7 +127,7 @@ public class FileSetup
     try
     {
      inputStream.close();
-    } 
+    }
     catch (IOException e)
     {
      e.printStackTrace();
@@ -201,6 +202,7 @@ public class FileSetup
  {
   return tileRotationsOg;
  }
+
  /**
   * Returns a long containing the original play time.
   * @return A float  containing the original play time.
@@ -211,3 +213,4 @@ public class FileSetup
  }
  
 }
+

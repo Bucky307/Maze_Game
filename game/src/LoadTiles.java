@@ -22,7 +22,7 @@ import java.util.Arrays;
  * This class handles loading tiles either 
  * from a default file or from a played maze file
  */
-public class LoadTiles 
+public class LoadTiles
 {
  private Tile[] tile;
  private JPanel grid, LPanel, RPanel;
@@ -32,7 +32,7 @@ public class LoadTiles
  private boolean unplayed;
  private GameWindow gWindow;
  private static boolean isValid;
- 
+
  /**
   * Constructor for the LoadTiles class.
   * Initializes the LoadTiles object with the given parameters.
@@ -42,18 +42,17 @@ public class LoadTiles
   * @param fileName The name of the file to be loaded.
   * @param gWindow The GameWindow object.
   */
- public LoadTiles(JPanel grid, JPanel LPanel, JPanel RPanel, String fileName, GameWindow gWindow)
+ public LoadTiles(JPanel grid, JPanel LPanel, JPanel RPanel, String fName, GameWindow gWindow)
  {
   this.grid = grid;
   this.LPanel = LPanel;
   this.RPanel = RPanel;
-  this.fileName = fileName;
+  fileName = fName;
   this.gWindow = gWindow;
-  
   file = new FileSetup(fileName, gWindow);
   unplayed = file.isUnplayed();
   isValid = file.isValid();
-  
+
   tile = new Tile[16];
 
   if(isValid == false)
@@ -269,3 +268,4 @@ public class LoadTiles
  }
  
 }
+

@@ -12,11 +12,11 @@ import java.awt.*;
  * This is the Main class that instantiates the
  * GameWindow and handles possible errors.
  */
-public class Main 
+public class Main
 {
  /**
- *				main creates a GameWindow object which allows the rest
- *				of the program to function.
+ *	main creates a GameWindow object which allows the rest
+ *	of the program to function.
  *	@param args standard parameter for main, allows console commands to be used.
  */
   public static void main(String[] args)
@@ -24,7 +24,7 @@ public class Main
     // This is the play area
 
     GameWindow game = new GameWindow("Group Foxtrot aMaze");
-  
+
 
     game.setSize(new Dimension(900, 1000));
 
@@ -33,7 +33,7 @@ public class Main
     game.getContentPane().setBackground(Color.PINK);
 
     game.setUp("default.mze");
-   
+
     // May or may not need this 
     game.setVisible(true);
 
@@ -47,6 +47,7 @@ public class Main
       //UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
       // This is the "Java" or CrossPlatform version and the default
       UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
+
       // Linux only
       //UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
       // really old style Motif 
