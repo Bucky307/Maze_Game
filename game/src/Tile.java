@@ -31,8 +31,10 @@ public class Tile extends JPanel implements MouseListener
  /**
   * Constructor for the Tile class.
   * For this version, it only sets the color and label.
-  * @param num The integer used for the label.
-  * @param lineCoords The array of floats representing the line coordinates.
+  * @param tileNum The integer used for the label.
+  * @param lineCoordsOg The array of floats representing the line coordinates.
+  * @param tileRotationOg The integer that is the original rotation.
+  * @param tilePositionOg The integer that is the original position.
   */
 public Tile(int tileNum, float[] lineCoordsOg, int tileRotationOg, int tilePositionOg)
 {

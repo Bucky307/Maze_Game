@@ -10,6 +10,8 @@
  
 
 import javax.swing.*;
+import javax.swing.border.MatteBorder;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
@@ -209,6 +211,28 @@ public class LoadTiles
      tile[i].updatePosition((Playbox)grid.getComponent(gridIndex));
      gWindow.setGrid(row, col);
     }
+   }
+   
+  //fixes problem with L/RPannels having wrong borders
+   for (int i = 0; i < 8; i++) 
+   {
+	     
+    if (((JPanel) LPanel.getComponent(i)).getComponentCount() == 0)
+    {
+	 ((JPanel) LPanel.getComponent(i)).setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+	}
+    else
+    {
+	 ((JPanel) LPanel.getComponent(i)).setBorder(null);
+	}
+	if (((JPanel) RPanel.getComponent(i)).getComponentCount() == 0)
+	{
+	 ((JPanel) RPanel.getComponent(i)).setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+	}
+	else
+	{
+	 ((JPanel) RPanel.getComponent(i)).setBorder(null);
+	}
    }
   }
   GameWindow.fixBorders();
