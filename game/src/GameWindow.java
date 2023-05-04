@@ -37,8 +37,6 @@ public static float[][] lineCoords;
 public static long timeOg;
 public static int[] tileNum;
 public static GameTime gTime = new GameTime();
-//public static int[][] gridData = new int[4][4];
-//public static Playbox[][] pboxArr = new Playbox[4][4];
 public static Tile lastTileClicked = null;
 public static final long serialVersionUID=1;
 
@@ -206,7 +204,8 @@ public static void fixBorders()
    pArea.updatePboxBorders(i, j, new int[]{1, 1, 1, 1});
   }
  }
-     
+ 
+ 
  // Remove borders for adjacent playboxes with tiles
  for (int i = 0; i < 4; i++) 
  {
@@ -218,6 +217,16 @@ public static void fixBorders()
    }
   }
  }
+ 
+
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
  pArea.repaintBorders();	
 }
 
