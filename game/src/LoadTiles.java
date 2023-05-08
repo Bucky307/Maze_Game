@@ -41,7 +41,7 @@ public class LoadTiles
   * @param grid The JPanel representing the grid.
   * @param LPanel The JPanel representing the left panel.
   * @param RPanel The JPanel representing the right panel.
-  * @param fileName The name of the file to be loaded.
+  * @param fName The name of the file to be loaded.
   * @param gWindow The GameWindow object.
   */
  public LoadTiles(JPanel grid, JPanel LPanel, JPanel RPanel, String fName, GameWindow gWindow)
