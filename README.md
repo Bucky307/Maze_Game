@@ -1,18 +1,9 @@
-# F #
-## Repository for Spring 2023 ##
+To run, either edit LoadAndSave.java and FileSetup.java  
+File file = new File("input/", filename); lines or run in  
+linux using xming.
 
-### Group F, Team-name: Foxtrot ###
-
-[Course Syllabus](https://github.com/UW-COSC3011/syllabus.git)
-
-The Team will use this as its ONLY repository for all work for this course.  
-This will include all documents pertaining to the design of the project and all   
-source code. 
-
-### Team Members: ###
-
-Townsend, Chester:  ctownse9  
-Smith, Ally:        AllySmith03  
-Richmond, Jason:    RedExecutor66  
-Harris, Buck:       Marshy8   
-Callihan, Caleb:    ccallihan
+Harris, Buck:       Coder 
+Townsend, Chester:  Brainstorming & bug fixing
+Smith, Ally:        UML
+Richmond, Jason:    Minutes Document
+Callihan, Caleb:    Version Document
